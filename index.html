@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Máquina de Pelotas Mágica</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="title">🎪 Máquina Mágica de Pelotas</h1>
+      <div class="counter">
+        <i class="fas fa-database"></i>
+        <span id="contador">10</span> disponibles
+      </div>
+    </div>
+    
+    <div class="machine">
+      <div id="resultado" class="display">
+        <div class="bubble">¡Presiona el botón!</div>
+      </div>
+      
+      <div class="controls">
+        <button id="extraerBtn" class="btn draw-btn">
+          <span class="btn-content">
+            <i class="fas fa-magic"></i>
+            <span>Extraer Pelota</span>
+          </span>
+          <div class="sparkles"></div>
+        </button>
+        <button id="reiniciar" class="btn reset-btn">
+          <i class="fas fa-infinity"></i>
+          Reiniciar
+        </button>
+      </div>
+    </div>
+    
+    <div class="particles"></div>
+  </div>
+  
+  <script src="sketch.js"></script>
+</body>
+</html>
