@@ -3,56 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Horizontal con Fondo Cuadriculado</title>
+    <title>Menú Horizontal Adaptable</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <header class="fade-in">
+        <header>
             <h1>Mi Fanpage</h1>
-            <p class="subtitle">Menú de navegación principal</p>
+            <p class="subtitle">Menú de navegación horizontal adaptable</p>
         </header>
-
-        <div class="menu">
-            <a href="./maquina_magica_pelotas/index.html" class="menu-btn fade-in delay-1">
-                <i class="fas fa-images"></i>
-                <div class="btn-title">Galería</div>
-                <div class="btn-desc">Fotos y videos exclusivos</div>
-            </a>
+        
+        <div class="nav-container">
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i> Menú Principal
+            </button>
             
-            <a href="eventos.html" class="menu-btn fade-in delay-2">
-                <i class="fas fa-calendar-alt"></i>
-                <div class="btn-title">Eventos</div>
-                <div class="btn-desc">Próximos encuentros</div>
-            </a>
-            
-            <a href="tienda.html" class="menu-btn fade-in delay-3">
-                <i class="fas fa-shopping-cart"></i>
-                <div class="btn-title">Tienda</div>
-                <div class="btn-desc">Productos oficiales</div>
-            </a>
-            
-            <a href="comunidad.html" class="menu-btn fade-in delay-4">
-                <i class="fas fa-users"></i>
-                <div class="btn-title">Comunidad</div>
-                <div class="btn-desc">Conéctate con otros fans</div>
-            </a>
-            
-            <a href="biografia.html" class="menu-btn fade-in delay-5">
-                <i class="fas fa-book-open"></i>
-                <div class="btn-title">Biografía</div>
-                <div class="btn-desc">Historia y logros</div>
-            </a>
-            
-            <a href="contacto.html" class="menu-btn fade-in delay-6">
-                <i class="fas fa-envelope"></i>
-                <div class="btn-title">Contacto</div>
-                <div class="btn-desc">Escríbenos</div>
-            </a>
+            <div class="menu">
+                <a href="galeria.html" class="menu-btn">
+                    <i class="fas fa-images"></i>
+                    <div class="btn-title">Galería</div>
+                </a>
+                
+                <a href="eventos.html" class="menu-btn">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div class="btn-title">Eventos</div>
+                </a>
+                
+                <a href="tienda.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div class="btn-title">Tienda</div>
+                </a>
+                
+                <a href="comunidad.html" class="menu-btn">
+                    <i class="fas fa-users"></i>
+                    <div class="btn-title">Comunidad</div>
+                </a>
+                
+                <a href="biografia.html" class="menu-btn">
+                    <i class="fas fa-book-open"></i>
+                    <div class="btn-title">Biografía</div>
+                </a>
+                
+                <a href="contacto.html" class="menu-btn">
+                    <i class="fas fa-envelope"></i>
+                    <div class="btn-title">Contacto</div>
+                </a>
+            </div>
         </div>
-
-        <footer class="fade-in">
+        
+        <div class="content">
+            <h2>Bienvenido a Nuestra Fanpage</h2>
+            <p>Explora todas las secciones utilizando nuestro menú horizontal. En dispositivos móviles, el menú se adapta automáticamente para ofrecerte la mejor experiencia de navegación.</p>
+        </div>
+        
+        <footer>
             <p>&copy; 2025 Mi Fanpage - Todos los derechos reservados</p>
         </footer>
     </div>
