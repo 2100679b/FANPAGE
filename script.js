@@ -1,28 +1,7 @@
-// Menú móvil
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const menu = document.querySelector('.menu');
-
-mobileMenuBtn.addEventListener('click', () => {
-    menu.classList.toggle('active');
-});
-
-// Cerrar menú al hacer clic en un enlace (solo móviles)
-document.querySelectorAll('.menu-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Verificar si estamos en modo móvil
-        if (window.innerWidth <= 768) {
-            menu.classList.remove('active');
-        }
-    });
-});
-
-// Efecto de rotación aleatoria en los botones (solo escritorio)
+// Efecto de animación al pasar el mouse
 document.querySelectorAll('.menu-btn').forEach(btn => {
     btn.addEventListener('mouseenter', () => {
-        // Solo aplicar efecto en escritorio
-        if (window.innerWidth > 768) {
-            btn.style.transform = `rotate(${Math.random() * 3 - 1.5}deg) translateY(-3px)`;
-        }
+        btn.style.transform = 'translateY(-5px)';
     });
     
     btn.addEventListener('mouseleave', () => {
@@ -30,12 +9,40 @@ document.querySelectorAll('.menu-btn').forEach(btn => {
     });
 });
 
-// Ajustar menú al cambiar tamaño de ventana
-window.addEventListener('resize', () => {
-    // Si la ventana es mayor a 768px, asegurarse de que el menú está visible
-    if (window.innerWidth > 768) {
-        menu.classList.add('active');
-    } else {
-        menu.classList.remove('active');
-    }
+// Efecto de carga inicial
+window.addEventListener('DOMContentLoaded', () => {
+    // Aplicar clase para mostrar con animación
+    setTimeout(() => {
+        document.querySelector('.container').classList.add('loaded');
+    }, 100);
+    
+    // Animación para los elementos de estadísticas
+    const statItems = document.querySelectorAll('.stat-item');
+    statItems.forEach((item, index) => {
+        setTimeout(() => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 300 + (index * 200));
+        }, 500);
+    });
+    
+    // Animación para los botones del menú
+    const menuBtns = document.querySelectorAll('.menu-btn');
+    menuBtns.forEach((btn, index) => {
+        setTimeout(() => {
+            btn.style.opacity = '0';
+            btn.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                btn.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                btn.style.opacity = '1';
+                btn.style.transform = 'translateY(0)';
+            }, 800 + (index * 100));
+        }, 500);
+    });
 });
