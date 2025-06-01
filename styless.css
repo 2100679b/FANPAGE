@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+}
+
+header {
+    margin-bottom: 40px;
+    animation: fadeIn 1.5s ease-out;
+}
+
+h1 {
+    color: white;
+    font-size: 3.5rem;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    color: #ffeb3b;
+    font-size: 1.4rem;
+    font-weight: 300;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.menu-btn {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 25px 15px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.menu-btn i {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.menu-btn .btn-title {
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.menu-btn .btn-desc {
+    color: #e0e0e0;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+footer {
+    margin-top: 50px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    h1 { font-size: 2.5rem; }
+    .subtitle { font-size: 1.1rem; }
+    .menu { grid-template-columns: 1fr; }
+}

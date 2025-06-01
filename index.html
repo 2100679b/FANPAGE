@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Fanpage - Menú Principal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mi Fanpage</h1>
+            <p class="subtitle">Explora nuestro contenido exclusivo</p>
+        </header>
+
+        <div class="menu">
+            <div class="menu-btn pulse" onclick="navigate('galeria.html')">
+                <i class="fas fa-images"></i>
+                <div class="btn-title">Galería</div>
+                <div class="btn-desc">Fotos y videos exclusivos</div>
+            </div>
+            
+            <div class="menu-btn" onclick="navigate('eventos.html')">
+                <i class="fas fa-calendar-alt"></i>
+                <div class="btn-title">Eventos</div>
+                <div class="btn-desc">Próximos encuentros</div>
+            </div>
+            
+            <div class="menu-btn" onclick="navigate('tienda.html')">
+                <i class="fas fa-shopping-cart"></i>
+                <div class="btn-title">Tienda</div>
+                <div class="btn-desc">Productos oficiales</div>
+            </div>
+            
+            <div class="menu-btn" onclick="navigate('comunidad.html')">
+                <i class="fas fa-users"></i>
+                <div class="btn-title">Comunidad</div>
+                <div class="btn-desc">Conéctate con otros fans</div>
+            </div>
+            
+            <div class="menu-btn" onclick="navigate('biografia.html')">
+                <i class="fas fa-book-open"></i>
+                <div class="btn-title">Biografía</div>
+                <div class="btn-desc">Historia y logros</div>
+            </div>
+            
+            <div class="menu-btn" onclick="navigate('contacto.html')">
+                <i class="fas fa-envelope"></i>
+                <div class="btn-title">Contacto</div>
+                <div class="btn-desc">Escríbenos</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Mi Fanpage - Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
