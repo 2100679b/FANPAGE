@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos - Probabilidad y Estadística</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --math-bg: #f8f9fa;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            background: white;
+            color: var(--secondary);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover,
+        nav ul li a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .page-header {
+            background: var(--light);
+            padding: 50px 30px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .page-header::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+        }
+        
+        .page-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .page-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .main-content {
+            padding: 40px 30px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 40px;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .resources-section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--secondary);
+        }
+        
+        .section-title i {
+            font-size: 1.8rem;
+            color: var(--secondary);
+        }
+        
+        .section-title h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .book-cover {
+            height: 250px;
+            background: linear-gradient(45deg, #3498db, #2c3e50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .book-cover::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+        
+        .book-cover i {
+            font-size: 6rem;
+            color: white;
+            opacity: 0.8;
+        }
+        
+        .book-info {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .book-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .book-author {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .book-desc {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .book-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .book-pages, .book-year {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .book-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .sidebar {
+            background: var(--math-bg);
+            border-radius: 15px;
+            padding: 30px;
+            height: fit-content;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .sidebar-section {
+            margin-bottom: 35px;
+        }
+        
+        .sidebar-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .sidebar-title i {
+            color: var(--secondary);
+        }
+        
+        .sidebar-title h4 {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+        
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-list li {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .category-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .category-list a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .category-list a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+        
+        .category-list i {
+            width: 35px;
+            height: 35px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .resource-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .resource-info h5 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .resource-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .resource-link {
+            color: var(--secondary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+        
+        .top-authors {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .author-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .author-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .author-info h5 {
+            color: var(--primary);
+            margin-bottom: 3px;
+        }
+        
+        .author-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 50px 30px 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .footer-links i {
+            margin-right: 8px;
+            width: 20px;
+        }
+        
+        .footer-contact p {
+            color: #ddd;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .footer-contact i {
+            margin-top: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+            
+            .page-header h2 {
+                font-size: 2rem;
+            }
+            
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 30px 20px;
+            }
+            
+            .main-content {
+                padding: 30px 20px;
+            }
+            
+            .section-title h3 {
+                font-size: 1.5rem;
+            }
+            
+            .book-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <div class="logo-text">
+                    <h1>Probabilidad y Estadística</h1>
+                    <p>Recursos educativos y material de estudio</p>
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="conceptos.html">Conceptos</a></li>
+                    <li><a href="calculadoras.html">Herramientas</a></li>
+                    <li><a href="#" class="active"><i class="fas fa-book"></i> Recursos</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="page-header">
+            <h2>Recursos de Probabilidad y Estadística</h2>
+            <p>Encuentra aquí libros, cursos, herramientas y otros recursos esenciales para dominar la probabilidad y estadística. Material seleccionado para estudiantes y profesionales.</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="content">
+                <div class="resources-section">
+                    <div class="section-title">
+                        <i class="fas fa-book"></i>
+                        <h3>Libros Recomendados</h3>
+                    </div>
+                    
+                    <div class="books-grid">
+                        <!-- Libro 1 -->
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">Probabilidad y Estadística para Ingeniería y Ciencias</h3>
+                                <p class="book-author">Ronald E. Walpole, Raymond H. Myers, Sharon L. Myers</p>
+                                <p class="book-desc">El libro clásico de Walpole presenta una introducción completa a la probabilidad y estadística con numerosos ejemplos aplicados a ingeniería y ciencias. Incluye más de 800 ejercicios prácticos.</p>
+                                <div class="book-meta">
+                                    <div class="book-pages"><i class="fas fa-file-alt"></i> 896 páginas</div>
+                                    <div class="book-year"><i class="fas fa-calendar-alt"></i> 2012</div>
+                                </div>
+                                <div class="book-actions">
+                                    <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Comprar</a>
+                                    <a href="#" class="btn btn-outline"><i class="fas fa-eye"></i> Vista Previa</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Libro 2 -->
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">Introducción a la Probabilidad y Estadística</h3>
+                                <p class="book-author">William Mendenhall, Robert J. Beaver, Barbara M. Beaver</p>
+                                <p class="book-desc">Este texto introductorio presenta los conceptos fundamentales de probabilidad y estadística con un enfoque aplicado. Ideal para estudiantes de ciencias sociales, administración e ingeniería.</p>
+                                <div class="book-meta">
+                                    <div class="book-pages"><i class="fas fa-file-alt"></i> 720 páginas</div>
+                                    <div class="book-year"><i class="fas fa-calendar-alt"></i> 2010</div>
+                                </div>
+                                <div class="book-actions">
+                                    <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Comprar</a>
+                                    <a href="#" class="btn btn-outline"><i class="fas fa-eye"></i> Vista Previa</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Libro 3 -->
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">Estadística Matemática con Aplicaciones</h3>
+                                <p class="book-author">Dennis Wackerly, William Mendenhall, Richard L. Scheaffer</p>
+                                <p class="book-desc">Un libro de nivel intermedio-avanzado que combina teoría matemática con aplicaciones prácticas. Excelente para estudiantes que necesitan una base sólida en estadística matemática.</p>
+                                <div class="book-meta">
+                                    <div class="book-pages"><i class="fas fa-file-alt"></i> 944 páginas</div>
+                                    <div class="book-year"><i class="fas fa-calendar-alt"></i> 2014</div>
+                                </div>
+                                <div class="book-actions">
+                                    <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Comprar</a>
+                                    <a href="#" class="btn btn-outline"><i class="fas fa-eye"></i> Vista Previa</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Libro 4 -->
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">Probability and Statistics</h3>
+                                <p class="book-author">Morris H. DeGroot, Mark J. Schervish</p>
+                                <p class="book-desc">Considerado uno de los mejores libros de probabilidad y estadística a nivel universitario. Presenta un tratamiento riguroso de los conceptos con aplicaciones en diversos campos.</p>
+                                <div class="book-meta">
+                                    <div class="book-pages"><i class="fas fa-file-alt"></i> 912 páginas</div>
+                                    <div class="book-year"><i class="fas fa-calendar-alt"></i> 2012</div>
+                                </div>
+                                <div class="book-actions">
+                                    <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Comprar</a>
+                                    <a href="#" class="btn btn-outline"><i class="fas fa-eye"></i> Vista Previa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resources-section">
+                    <div class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Cursos Online</h3>
+                    </div>
+                    
+                    <div class="books-grid">
+                        <!-- Curso 1 -->
+                        <div class="book-card">
+                            <div class="book-cover" style="background: linear-gradient(45deg, #e74c3c, #c0392b);">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">Probabilidad y Estadística para Ciencias de Datos</h3>
+                                <p class="book-author">Coursera - Universidad de Stanford</p>
+                                <p class="book-desc">Este curso cubre los fundamentos de probabilidad y estadística necesarios para el análisis de datos y machine learning. Incluye ejercicios prácticos con Python.</p>
+                                <div class="book-meta">
+                                    <div class="book-pages"><i class="fas fa-clock"></i> 60 horas</div>
+                                    <div class="book-year"><i class="fas fa-user-graduate"></i> Nivel: Intermedio</div>
+                                </div>
+                                <div class="book-actions">
+                                    <a href="#" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> Ver Curso</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Curso 2 -->
+                        <div class="book-card">
+                            <div class="book-cover" style="background: linear-gradient(45deg, #9b59b6, #8e44ad);">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="book-info">
+                                <h3 class="book-title">Introducción a la Estadística Inferencial</h3>
+                                <p class="book-author">edX - Universidad de Harvard</p>
+                                <p class="book-desc">Aprende los conceptos fundamentales de la estadística inferencial, pruebas de hipótesis, intervalos de confianza y análisis de regresión con aplicaciones prácticas.</p>
+                                <div class="book-meta">
+                                    <div class="book-pages"><i class="fas fa-clock"></i> 40 horas</div>
+                                    <div class="book-year"><i class="fas fa-user-graduate"></i> Nivel: Principiante</div>
+                                </div>
+                                <div class="book-actions">
+                                    <a href="#" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> Ver Curso</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">
+                        <i class="fas fa-folder-open"></i>
+                        <h4>Categorías</h4>
+                    </div>
+                    
+                    <ul class="category-list">
+                        <li><a href="#"><i class="fas fa-book"></i> Libros de Texto</a></li>
+                        <li><a href="#"><i class="fas fa-video"></i> Cursos Online</a></li>
+                        <li><a href="#"><i class="fas fa-tools"></i> Herramientas</a></li>
+                        <li><a href="#"><i class="fas fa-file-pdf"></i> Apuntes y Guías</a></li>
+                        <li><a href="#"><i class="fas fa-laptop-code"></i> Software Estadístico</a></li>
+                        <li><a href="#"><i class="fas fa-podcast"></i> Podcasts</a></li>
+                        <li><a href="#"><i class="fas fa-blog"></i> Blogs Especializados</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-title">
+                        <i class="fas fa-star"></i>
+                        <h4>Recursos Destacados</h4>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="resource-info">
+                            <h5>Calculadora Estadística Online</h5>
+                            <p>Herramienta completa para realizar cálculos estadísticos complejos</p>
+                            <a href="#" class="resource-link">Acceder <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="resource-info">
+                            <h5>Guía Rápida de Distribuciones</h5>
+                            <p>Resumen visual de las principales distribuciones de probabilidad</p>
+                            <a href="#" class="resource-link">Descargar PDF <i class="fas fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-title">
+                        <i class="fas fa-user-friends"></i>
+                        <h4>Autores Destacados</h4>
+                    </div>
+                    
+                    <div class="top-authors">
+                        <div class="author-card">
+                            <div class="author-avatar">RW</div>
+                            <div class="author-info">
+                                <h5>Ronald Walpole</h5>
+                                <p>Autor de referencia en estadística</p>
+                            </div>
+                        </div>
+                        
+                        <div class="author-card">
+                            <div class="author-avatar">WM</div>
+                            <div class="author-info">
+                                <h5>William Mendenhall</h5>
+                                <p>Experto en estadística aplicada</p>
+                            </div>
+                        </div>
+                        
+                        <div class="author-card">
+                            <div class="author-avatar">DG</div>
+                            <div class="author-info">
+                                <h5>Morris DeGroot</h5>
+                                <p>Teórico de probabilidad</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-book"></i> Libros</a></li>
+                        <li><a href="#"><i class="fas fa-graduation-cap"></i> Cursos</a></li>
+                        <li><a href="#"><i class="fas fa-calculator"></i> Herramientas</a></li>
+                        <li><a href="#"><i class="fas fa-file-pdf"></i> Guías PDF</a></li>
+                        <li><a href="#"><i class="fas fa-video"></i> Tutoriales</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                        <li><a href="conceptos.html"><i class="fas fa-brain"></i> Conceptos</a></li>
+                        <li><a href="calculadoras.html"><i class="fas fa-calculator"></i> Calculadoras</a></li>
+                        <li><a href="ejemplos.html"><i class="fas fa-lightbulb"></i> Ejemplos</a></li>
+                        <li><a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-envelope"></i> contacto@probabilidadestadistica.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Universidad Nacional, Costa Rica</p>
+                        <p><i class="fas fa-phone"></i> +506 2222-5555</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Probabilidad y Estadística. Todos los derechos reservados. | Diseñado con <i class="fas fa-heart" style="color: #e74c3c;"></i> para estudiantes</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Efecto de carga para las tarjetas
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.book-card, .resource-card, .author-card');
+            
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, 200 * index);
+            });
+            
+            // Efecto hover para botones
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.transform = 'translateY(-5px)';
+                });
+                
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
