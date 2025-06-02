@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceptos Básicos - Probabilidad y Estadística</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --math-bg: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            background: white;
+            color: var(--secondary);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover,
+        nav ul li a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .page-header {
+            background: var(--light);
+            padding: 50px 30px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .page-header::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+        }
+        
+        .page-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .page-header p {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .toc-container {
+            background: var(--math-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .toc-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+        
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .chapter-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-left-color: var(--accent);
+        }
+        
+        .chapter-number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .chapter-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .chapter-topics {
+            list-style: none;
+        }
+        
+        .chapter-topics li {
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95rem;
+            color: #555;
+        }
+        
+        .chapter-topics li::before {
+            content: "•";
+            position: absolute;
+            left: 10px;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        
+        .main-content {
+            padding: 20px 30px 40px;
+        }
+        
+        .chapter-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .chapter-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .chapter-header i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            background: var(--light);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chapter-header-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .chapter-header-text p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .concept-group {
+            margin-bottom: 35px;
+        }
+        
+        .concept-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .concept-title i {
+            color: var(--secondary);
+        }
+        
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .concept-card {
+            background: var(--math-bg);
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 4px solid var(--secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-left-color: var(--accent);
+        }
+        
+        .concept-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .concept-name i {
+            color: var(--accent);
+        }
+        
+        .concept-definition {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .concept-formula {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            margin: 15px 0;
+            border-left: 3px solid var(--secondary);
+            overflow-x: auto;
+        }
+        
+        .concept-example {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .concept-example h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 50px 30px 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .footer-links i {
+            margin-right: 8px;
+            width: 20px;
+        }
+        
+        .footer-contact p {
+            color: #ddd;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .footer-contact i {
+            margin-top: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .chapter-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .chapter-header i {
+                margin-bottom: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+            
+            .page-header h2 {
+                font-size: 2rem;
+            }
+            
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 30px 20px;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+            
+            .chapter-section {
+                padding: 20px;
+            }
+            
+            .concept-title {
+                font-size: 1.3rem;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .math-formula {
+            font-family: 'Cambria Math', serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, rgba(52, 152, 219, 0.2), rgba(46, 204, 113, 0.2));
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <div class="logo-text">
+                    <h1>Probabilidad y Estadística</h1>
+                    <p>Conceptos Básicos y Teoría Fundamental</p>
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#" class="active"><i class="fas fa-brain"></i> Conceptos</a></li>
+                    <li><a href="calculadoras.html"><i class="fas fa-calculator"></i> Herramientas</a></li>
+                    <li><a href="recursos.html"><i class="fas fa-book"></i> Recursos</a></li>
+                    <li><a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="page-header">
+            <h2>Conceptos Básicos de Probabilidad y Estadística</h2>
+            <p>Explora los fundamentos teóricos y definiciones esenciales que forman la base de la estadística matemática. Basado en el libro "Estadística Matemática con Aplicaciones" de John E. Freund, Irwin Miller y Marylees Miller.</p>
+        </div>
+        
+        <div class="toc-container">
+            <div class="toc-title">
+                <i class="fas fa-book-open"></i>
+                <h3>Tabla de Contenidos</h3>
+            </div>
+            
+            <div class="toc-grid">
+                <div class="chapter-card">
+                    <div class="chapter-number">Capítulo 1</div>
+                    <div class="chapter-title">Introducción</div>
+                    <ul class="chapter-topics">
+                        <li>Métodos combinatorios</li>
+                        <li>Principio básico de conteo</li>
+                        <li>Permutaciones y combinaciones</li>
+                        <li>Coeficientes binomiales</li>
+                    </ul>
+                </div>
+                
+                <div class="chapter-card">
+                    <div class="chapter-number">Capítulo 2</div>
+                    <div class="chapter-title">Probabilidad</div>
+                    <ul class="chapter-topics">
+                        <li>Espacio muestral y eventos</li>
+                        <li>Postulados de probabilidad</li>
+                        <li>Probabilidad condicional</li>
+                        <li>Teorema de Bayes</li>
+                    </ul>
+                </div>
+                
+                <div class="chapter-card">
+                    <div class="chapter-number">Capítulo 3</div>
+                    <div class="chapter-title">Distribuciones de probabilidad</div>
+                    <ul class="chapter-topics">
+                        <li>Variables aleatorias</li>
+                        <li>Distribuciones discretas</li>
+                        <li>Distribuciones continuas</li>
+                        <li>Funciones de distribución</li>
+                    </ul>
+                </div>
+                
+                <div class="chapter-card">
+                    <div class="chapter-number">Capítulo 4</div>
+                    <div class="chapter-title">Esperanza Matemática</div>
+                    <ul class="chapter-topics">
+                        <li>Valor esperado</li>
+                        <li>Varianza y desviación estándar</li>
+                        <li>Teorema de Chebyshev</li>
+                        <li>Funciones generatrices</li>
+                    </ul>
+                </div>
+                
+                <div class="chapter-card">
+                    <div class="chapter-number">Capítulo 5</div>
+                    <div class="chapter-title">Distribuciones discretas</div>
+                    <ul class="chapter-topics">
+                        <li>Distribución Bernoulli</li>
+                        <li>Distribución Binomial</li>
+                        <li>Distribución Poisson</li>
+                        <li>Distribución Geométrica</li>
+                    </ul>
+                </div>
+                
+                <div class="chapter-card">
+                    <div class="chapter-number">Capítulo 6</div>
+                    <div class="chapter-title">Distribuciones continuas</div>
+                    <ul class="chapter-topics">
+                        <li>Distribución Normal</li>
+                        <li>Distribución Exponencial</li>
+                        <li>Distribución Gamma</li>
+                        <li>Distribución Ji-cuadrada</li>
+                    </ul>
+                </div>
+                
+                <div class="chapter-card">
+                    <div class="chapter-number">Capítulo 7</div>
+                    <div class="chapter-title">Funciones de variables</div>
+                    <ul class="chapter-topics">
+                        <li>Técnicas de transformación</li>
+                        <li>Distribución de funciones</li>
+                        <li>Método de la función generatriz</li>
+                    </ul>
+                </div>
+                
+                <div class="chapter-card">
+                    <div class="chapter-number">Capítulo 8</div>
+                    <div class="chapter-title">Distribuciones de muestreo</div>
+                    <ul class="chapter-topics">
+                        <li>Población y muestra</li>
+                        <li>Media y varianza muestral</li>
+                        <li>Teorema del límite central</li>
+                        <li>Distribuciones t, F y χ²</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Capítulo 1 -->
+            <div class="chapter-section">
+                <div class="chapter-header">
+                    <i class="fas fa-1"></i>
+                    <div class="chapter-header-text">
+                        <h3>Introducción</h3>
+                        <p>Fundamentos matemáticos y métodos combinatorios</p>
+                    </div>
+                </div>
+                
+                <div class="concept-group">
+                    <h4 class="concept-title"><i class="fas fa-calculator"></i> Métodos Combinatorios</h4>
+                    
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-sort-amount-up"></i> Principio básico de conteo</h5>
+                            <p class="concept-definition">Si una operación consta de <span class="highlight">k pasos</span>, y el primer paso se puede realizar de <span class="highlight">n₁ maneras</span>, el segundo de <span class="highlight">n₂ maneras</span> para cada una de las primeras, y así sucesivamente, entonces la operación completa se puede realizar de <span class="highlight">n₁ • n₂ • ... • nₖ maneras</span>.</p>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Si tienes 3 camisetas y 2 pantalones, puedes formar 3 × 2 = 6 conjuntos diferentes.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-retweet"></i> Permutaciones</h5>
+                            <p class="concept-definition">Los diferentes arreglos en los que un grupo de objetos se pueden ordenar. La cantidad de permutaciones de <span class="highlight">n</span> objetos diferentes tomados de <span class="highlight">r</span> en <span class="highlight">r</span> es:</p>
+                            <div class="concept-formula">
+                                P(n, r) = n! / (n - r)!
+                            </div>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Permutaciones de 3 letras (A, B, C): ABC, ACB, BAC, BCA, CAB, CBA → 6 permutaciones.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-layer-group"></i> Combinaciones</h5>
+                            <p class="concept-definition">Selecciones de <span class="highlight">r</span> objetos de entre <span class="highlight">n</span> objetos diferentes sin importar el orden. El número de combinaciones es:</p>
+                            <div class="concept-formula">
+                                C(n, r) = n! / [r! (n - r)!]
+                            </div>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Combinaciones de 3 letras tomadas 2 a la vez: AB, AC, BC → 3 combinaciones (el orden no importa).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capítulo 2 -->
+            <div class="chapter-section">
+                <div class="chapter-header">
+                    <i class="fas fa-2"></i>
+                    <div class="chapter-header-text">
+                        <h3>Probabilidad</h3>
+                        <p>Fundamentos de la teoría de probabilidad</p>
+                    </div>
+                </div>
+                
+                <div class="concept-group">
+                    <h4 class="concept-title"><i class="fas fa-dice"></i> Conceptos Fundamentales</h4>
+                    
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-project-diagram"></i> Espacio muestral</h5>
+                            <p class="concept-definition">El conjunto de <span class="highlight">todos los posibles resultados</span> de un experimento. Cada resultado es un <span class="highlight">elemento o punto muestral</span>.</p>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Al lanzar un dado: S = {1, 2, 3, 4, 5, 6}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-bullseye"></i> Evento</h5>
+                            <p class="concept-definition">Un <span class="highlight">subconjunto</span> de un espacio muestral. Puede ser simple (un solo resultado) o compuesto (varios resultados).</p>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Evento "número par al lanzar un dado": A = {2, 4, 6}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-calculator"></i> Postulados de probabilidad</h5>
+                            <p class="concept-definition">
+                                1. P(A) ≥ 0<br>
+                                2. P(S) = 1<br>
+                                3. Si A₁, A₂, ... son mutuamente excluyentes, P(∪Aᵢ) = ΣP(Aᵢ)
+                            </p>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>P(número par) = P(2) + P(4) + P(6) = 1/6 + 1/6 + 1/6 = 1/2</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="concept-group">
+                    <h4 class="concept-title"><i class="fas fa-random"></i> Probabilidad Condicional e Independencia</h4>
+                    
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-link"></i> Probabilidad condicional</h5>
+                            <p class="concept-definition">La probabilidad de que ocurra un evento A dado que ha ocurrido un evento B:</p>
+                            <div class="concept-formula">
+                                P(A|B) = P(A ∩ B) / P(B)
+                            </div>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Probabilidad de sacar un as dado que la carta es roja en una baraja estándar.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-unlink"></i> Eventos independientes</h5>
+                            <p class="concept-definition">Dos eventos A y B son independientes si:</p>
+                            <div class="concept-formula">
+                                P(A ∩ B) = P(A) · P(B)
+                            </div>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Lanzar una moneda dos veces: el resultado del primer lanzamiento no afecta al segundo.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-balance-scale"></i> Teorema de Bayes</h5>
+                            <p class="concept-definition">Permite actualizar probabilidades con nueva información:</p>
+                            <div class="concept-formula">
+                                P(Bᵢ|A) = [P(Bᵢ) · P(A|Bᵢ)] / Σ[P(Bⱼ) · P(A|Bⱼ)]
+                            </div>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Determinar la probabilidad de tener una enfermedad dado un resultado positivo en una prueba médica.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capítulo 3 -->
+            <div class="chapter-section">
+                <div class="chapter-header">
+                    <i class="fas fa-3"></i>
+                    <div class="chapter-header-text">
+                        <h3>Distribuciones de Probabilidad</h3>
+                        <p>Variables aleatorias y sus distribuciones</p>
+                    </div>
+                </div>
+                
+                <div class="concept-group">
+                    <h4 class="concept-title"><i class="fas fa-chart-bar"></i> Variables Aleatorias</h4>
+                    
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-dice-one"></i> Variable aleatoria discreta</h5>
+                            <p class="concept-definition">Toma valores en un conjunto <span class="highlight">finito o infinito numerable</span>. Se describe mediante su <span class="highlight">función de masa de probabilidad</span>.</p>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Número de caras al lanzar 3 monedas: X = {0, 1, 2, 3}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-infinity"></i> Variable aleatoria continua</h5>
+                            <p class="concept-definition">Toma valores en un <span class="highlight">intervalo continuo</span>. Se describe mediante su <span class="highlight">función de densidad de probabilidad (f.d.p.)</span>.</p>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Altura de personas adultas, tiempo entre llegadas a un servidor.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-chart-line"></i> Función de distribución</h5>
+                            <p class="concept-definition">Para una variable aleatoria X, F(x) = P(X ≤ x). Para variables continuas:</p>
+                            <div class="concept-formula">
+                                F(x) = ∫<sub>-∞</sub><sup>x</sup> f(t) dt
+                            </div>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>En una distribución uniforme [a,b], F(x) = (x - a)/(b - a) para a ≤ x ≤ b.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Capítulo 4 -->
+            <div class="chapter-section">
+                <div class="chapter-header">
+                    <i class="fas fa-4"></i>
+                    <div class="chapter-header-text">
+                        <h3>Esperanza Matemática</h3>
+                        <p>Valor esperado y momentos de distribuciones</p>
+                    </div>
+                </div>
+                
+                <div class="concept-group">
+                    <h4 class="concept-title"><i class="fas fa-calculator"></i> Conceptos Clave</h4>
+                    
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-cube"></i> Valor esperado</h5>
+                            <p class="concept-definition">Media o promedio teórico de una variable aleatoria:</p>
+                            <div class="concept-formula math-formula">
+                                E(X) = Σ [xᵢ · P(xᵢ)] (discreta)<br>
+                                E(X) = ∫ x · f(x) dx (continua)
+                            </div>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Valor esperado de un dado: E(X) = (1+2+3+4+5+6)/6 = 3.5</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-expand-arrows-alt"></i> Varianza</h5>
+                            <p class="concept-definition">Medida de la dispersión de una distribución:</p>
+                            <div class="concept-formula math-formula">
+                                Var(X) = E[(X - μ)²] = E(X²) - [E(X)]²
+                            </div>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Varianza de un dado: E(X²) = 91/6, Var(X) = 91/6 - (3.5)² = 35/12 ≈ 2.92</p>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h5 class="concept-name"><i class="fas fa-arrows-alt-h"></i> Desviación estándar</h5>
+                            <p class="concept-definition">Raíz cuadrada de la varianza, en las mismas unidades que la variable:</p>
+                            <div class="concept-formula">
+                                σ = √Var(X)
+                            </div>
+                            <div class="concept-example">
+                                <h4><i class="fas fa-lightbulb"></i> Ejemplo</h4>
+                                <p>Para el dado: σ = √(35/12) ≈ 1.71</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="recursos.html"><i class="fas fa-book"></i> Libros</a></li>
+                        <li><a href="#"><i class="fas fa-graduation-cap"></i> Cursos</a></li>
+                        <li><a href="calculadoras.html"><i class="fas fa-calculator"></i> Herramientas</a></li>
+                        <li><a href="#"><i class="fas fa-file-pdf"></i> Guías PDF</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                        <li><a href="#" class="active"><i class="fas fa-brain"></i> Conceptos</a></li>
+                        <li><a href="ejemplos.html"><i class="fas fa-lightbulb"></i> Ejemplos</a></li>
+                        <li><a href="simulaciones.html"><i class="fas fa-dice"></i> Simulaciones</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-envelope"></i> contacto@probabilidadestadistica.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Universidad Nacional, Costa Rica</p>
+                        <p><i class="fas fa-phone"></i> +506 2222-5555</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Probabilidad y Estadística. Todos los derechos reservados. | Basado en "Estadística Matemática con Aplicaciones" de Freund, Miller y Miller</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Efecto de desplazamiento suave para enlaces internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Animación para las tarjetas de capítulos
+        document.addEventListener('DOMContentLoaded', function() {
+            const chapterCards = document.querySelectorAll('.chapter-card');
+            
+            chapterCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, 200 * index);
+            });
+            
+            // Animación para las secciones de capítulos
+            const chapterSections = document.querySelectorAll('.chapter-section');
+            
+            chapterSections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.style.opacity = '0';
+                    section.style.transform = 'translateY(30px)';
+                    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    
+                    setTimeout(() => {
+                        section.style.opacity = '1';
+                        section.style.transform = 'translateY(0)';
+                    }, 300);
+                }, 500 + (index * 300));
+            });
+        });
+    </script>
+</body>
+</html>
