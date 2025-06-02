@@ -381,6 +381,8 @@ footer {
 
 .footer-section ul {
     list-style: none;
+    padding: 0; /* Añadido para resetear padding */
+    margin: 0; /* Añadido para resetear margin */
 }
 
 .footer-section ul li {
@@ -392,6 +394,7 @@ footer {
     text-decoration: none;
     transition: all 0.3s ease;
     font-size: 1.05rem;
+    display: inline-block; /* Añadido para que el padding funcione */
 }
 
 .footer-section ul li a:hover {
@@ -429,7 +432,7 @@ footer {
 
 .social-icons a:hover {
     background: white;
-    color: #1a2a6c;
+    color: var(--primary); /* Cambiado a variable para consistencia */
     transform: translateY(-5px);
 }
 
@@ -501,6 +504,7 @@ footer {
     .formula-box {
         font-size: 1.8rem;
         padding: 20px;
+        width: 100%;
     }
     
     .footer-content {
