@@ -381,8 +381,8 @@ footer {
 
 .footer-section ul {
     list-style: none;
-    padding: 0; /* Añadido para resetear padding */
-    margin: 0; /* Añadido para resetear margin */
+    padding: 0;
+    margin: 0;
 }
 
 .footer-section ul li {
@@ -394,7 +394,7 @@ footer {
     text-decoration: none;
     transition: all 0.3s ease;
     font-size: 1.05rem;
-    display: inline-block; /* Añadido para que el padding funcione */
+    display: inline-block;
 }
 
 .footer-section ul li a:hover {
@@ -432,7 +432,7 @@ footer {
 
 .social-icons a:hover {
     background: white;
-    color: var(--primary); /* Cambiado a variable para consistencia */
+    color: var(--primary);
     transform: translateY(-5px);
 }
 

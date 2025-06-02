@@ -1,66 +1,63 @@
-// Animación de carga inicial
-window.addEventListener('DOMContentLoaded', () => {
-    // Mostrar el contenedor principal con animación
+// Espera a que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', function() {
+    // Agrega la clase 'loaded' al contenedor para activar la animación
     document.querySelector('.container').classList.add('loaded');
     
     // Animación para los elementos de estadísticas
-    animateElements('.stat-item', 300);
-    
-    // Animación para los botones del menú
-    animateElements('.menu-btn', 500);
-    
-    // Animación para la fórmula
-    setTimeout(() => {
-        const formulaBox = document.querySelector('.formula-box');
-        formulaBox.style.transform = 'scale(1.1)';
-        formulaBox.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
-        
+    const statItems = document.querySelectorAll('.stat-item');
+    statItems.forEach((item, index) => {
         setTimeout(() => {
-            formulaBox.style.transition = 'all 0.5s ease';
-            formulaBox.style.transform = 'scale(1)';
-            formulaBox.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-        }, 1000);
-    }, 800);
-});
-
-// Función para animar elementos con retraso
-function animateElements(selector, initialDelay) {
-    const elements = document.querySelectorAll(selector);
-    
-    elements.forEach((element, index) => {
-        setTimeout(() => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.5s ease';
             
             setTimeout(() => {
-                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, 100);
-        }, initialDelay + (index * 150));
-    });
-}
-
-// Efecto de animación al pasar el mouse en los botones
-document.querySelectorAll('.menu-btn').forEach(btn => {
-    btn.addEventListener('mouseenter', () => {
-        btn.style.transform = 'translateY(-8px)';
-        btn.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.2)';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 50);
+        }, 200 * index);
     });
     
-    btn.addEventListener('mouseleave', () => {
-        btn.style.transform = 'translateY(0)';
-        btn.style.boxShadow = '0 7px 20px rgba(0, 0, 0, 0.08)';
-    });
-});
-
-// Efecto en los elementos de estadísticas
-document.querySelectorAll('.stat-item').forEach(item => {
-    item.addEventListener('mouseenter', () => {
-        item.style.transform = 'translateY(-8px) scale(1.05)';
+    // Animación para los botones del menú
+    const menuButtons = document.querySelectorAll('.menu-btn');
+    menuButtons.forEach((button, index) => {
+        setTimeout(() => {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+            button.style.transition = 'all 0.5s ease';
+            
+            setTimeout(() => {
+                button.style.opacity = '1';
+                button.style.transform = 'translateY(0)';
+            }, 50);
+        }, 300 + (index * 100));
     });
     
-    item.addEventListener('mouseleave', () => {
-        item.style.transform = '';
+    // Animación para la sección matemática
+    const mathConcept = document.querySelector('.math-concept');
+    setTimeout(() => {
+        mathConcept.style.opacity = '0';
+        mathConcept.style.transform = 'translateY(30px)';
+        mathConcept.style.transition = 'all 0.8s ease';
+        
+        setTimeout(() => {
+            mathConcept.style.opacity = '1';
+            mathConcept.style.transform = 'translateY(0)';
+        }, 50);
+    }, 1000);
+    
+    // Efecto de desplazamiento suave para enlaces internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
 });
