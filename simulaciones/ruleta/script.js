@@ -56,16 +56,16 @@ function apostar(apuesta) {
   
   console.log(`Número ganador: ${numeroGanador}, Color: ${colorGanador}`);
   
-  // Calcular animación
+  // Calcular animación (CÁLCULO CORREGIDO)
   const anchoSlot = 60;
   const centroTrack = 300; // Centro de la pista (600px / 2)
   const vueltasCompletas = 4; // Número de vueltas completas
   const totalSlots = numerosRuleta.length;
   
-  // Calcular desplazamiento total
+  // Calcular desplazamiento total (FÓRMULA CORREGIDA)
   const vueltasPixeles = vueltasCompletas * totalSlots * anchoSlot;
   const posicionObjetivo = indiceGanador * anchoSlot;
-  const desplazamientoFinal = -(vueltasPixeles + posicionObjetivo - centroTrack + anchoSlot/2);
+  const desplazamientoFinal = -(vueltasPixeles + posicionObjetivo - centroTrack);
   
   // Mostrar mensaje de giro
   document.getElementById("resultado").innerHTML = "🌀 La ruleta está girando...";
@@ -94,12 +94,14 @@ function apostar(apuesta) {
 
     // Actualizar historial
     const historial = document.getElementById("historial");
-    historial.innerHTML += `
-      <p>🌀 <strong>Ronda ${contador++}:</strong> 
+    const nuevaEntrada = document.createElement('p');
+    nuevaEntrada.innerHTML = `
+      <strong>Ronda ${contador}:</strong> 
       Apostaste a <strong class="${apuesta}">${apuesta.toUpperCase()}</strong> ➜ 
       Resultado: <strong class="${colorGanador}">${numeroGanador} (${colorGanador.toUpperCase()})</strong>
       ${gano ? '✅' : '❌'}
-      </p>`;
+    `;
+    historial.appendChild(nuevaEntrada);
     
     // Scroll automático
     historial.scrollTop = historial.scrollHeight;
@@ -107,6 +109,9 @@ function apostar(apuesta) {
     // Rehabilitar botones
     botones.forEach(btn => btn.disabled = false);
     girando = false;
+    
+    // Incrementar contador
+    contador++;
     
     // Reiniciar posición después de un tiempo para evitar overflow
     setTimeout(reiniciarPosicion, 2000);
@@ -121,7 +126,7 @@ function reiniciarPosicion() {
     ruletaDiv.style.transition = 'none';
     ruletaDiv.style.transform = 'translateX(0px)';
     posicionActual = 0;
-    // Forzar reflow
+    // Forzar reflow para aplicar cambios (AGREGADO)
     ruletaDiv.offsetHeight;
   }
 }
