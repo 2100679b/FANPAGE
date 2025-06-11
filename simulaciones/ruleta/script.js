@@ -56,18 +56,18 @@ function apostar(apuesta) {
   
   console.log(`Número ganador: ${numeroGanador}, Color: ${colorGanador}`);
   
-  // CALCULO CORREGIDO - CENTRADO PRECISO
+  // CÁLCULO CORREGIDO - VERSIÓN FINAL
   const anchoSlot = 60;
   const centroTrack = 300;
   const vueltasCompletas = 4;
   const totalSlots = numerosRuleta.length;
   
-  const vueltasPixeles = vueltasCompletas * totalSlots * anchoSlot;
-  const posicionObjetivo = indiceGanador * anchoSlot;
+  // Calcular la posición en la ruleta extendida
+  const posicionEnExtendida = Math.floor(totalSlots * 2.5) * anchoSlot + (indiceGanador * anchoSlot);
   
-  // Ajuste para centrar el número bajo el puntero
+  // Ajuste preciso para centrar bajo el puntero
   const ajusteCentrado = centroTrack - anchoSlot / 2;
-  const desplazamientoFinal = -(vueltasPixeles + posicionObjetivo - ajusteCentrado);
+  const desplazamientoFinal = -(posicionEnExtendida - ajusteCentrado);
   
   // Mostrar mensaje de giro
   document.getElementById("resultado").innerHTML = "🌀 La ruleta está girando...";
