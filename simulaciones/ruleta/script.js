@@ -13,5 +13,5 @@ function apostar(apuesta) {
   document.getElementById("resultado").textContent = mensaje;
 
   const historial = document.getElementById("historial");
-  historial.innerHTML += `<p>Resultado: ${resultado}</p>`;
+  historial.innerHTML += `<p>Apostaste a <strong>${apuesta}</strong> ➜ Resultado: <strong>${resultado}</strong></p>`;
 }
