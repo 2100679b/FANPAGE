@@ -49,12 +49,13 @@ function apostar(apuesta) {
   const numeroGanador = numerosRuleta[indiceGanador];
   const colorGanador = colores[numeroGanador];
   
-  // Calcular posición final
+  // Calcular posición final - CORREGIDO para que coincida con la visual
   const anchoSlot = 60; // ancho de cada slot
-  const posicionBase = -indiceGanador * anchoSlot;
-  const vueltasExtra = -anchoSlot * numerosRuleta.length * 3; // 3 vueltas completas
-  const offsetAleatorio = Math.random() * 20 - 10; // pequeño offset para realismo
-  const posicionFinal = posicionBase + vueltasExtra + offsetAleatorio;
+  const centroRuleta = 300; // centro de la pista (600px / 2)
+  const posicionObjetivo = centroRuleta - (anchoSlot / 2); // posición donde debe quedar el número bajo la flecha
+  const posicionNumero = indiceGanador * anchoSlot; // posición actual del número
+  const vueltasExtra = anchoSlot * numerosRuleta.length * 3; // 3 vueltas completas
+  const posicionFinal = posicionObjetivo - posicionNumero - vueltasExtra;
   
   // Mostrar mensaje de giro
   document.getElementById("resultado").innerHTML = "🌀 La ruleta está girando...";
@@ -97,9 +98,13 @@ function apostar(apuesta) {
 
 // Función para reiniciar la posición de la ruleta
 function reiniciarPosicion() {
-  const ruletaDiv = document.getElementById("ruleta");
-  ruletaDiv.style.transition = 'none';
-  ruletaDiv.style.transform = 'translateX(0px)';
+  if (!girando) {
+    const ruletaDiv = document.getElementById("ruleta");
+    ruletaDiv.style.transition = 'none';
+    ruletaDiv.style.transform = 'translateX(0px)';
+    // Forzar un reflow para aplicar el cambio inmediatamente
+    ruletaDiv.offsetHeight;
+  }
 }
 
 // Inicializar al cargar la página

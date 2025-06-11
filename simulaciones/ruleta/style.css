@@ -93,7 +93,7 @@ header h1 {
   height: 100%;
   position: absolute;
   top: 0;
-  left: 50%;
+  left: 0;
   transform: translateX(0px);
   align-items: center;
 }
