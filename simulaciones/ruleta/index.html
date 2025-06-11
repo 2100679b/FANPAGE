@@ -2,12 +2,341 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Simulador de Ruleta</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Simulador de Ruleta - Casino Realista</title>
+  <style>
+    /* General */
+    body {
+      background: radial-gradient(circle, #111 40%, #222 100%);
+      color: #f5f5f5;
+      font-family: 'Trebuchet MS', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Encabezado estilo casino */
+    header {
+      background-color: #8B0000;
+      padding: 20px;
+      border-bottom: 4px solid gold;
+    }
+
+    header h1 {
+      color: gold;
+      text-shadow: 2px 2px 6px black;
+      font-size: 2.5em;
+      margin: 0;
+    }
+
+    /* Menú */
+    #menu-juegos ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    #menu-juegos li a {
+      background-color: gold;
+      color: #8B0000;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: 0.3s;
+      box-shadow: 2px 2px 5px black;
+    }
+
+    #menu-juegos li a:hover {
+      background-color: #ffd700;
+      transform: scale(1.05);
+    }
+
+    /* Display de fichas */
+    #fichas-display {
+      background-color: rgba(139, 0, 0, 0.8);
+      padding: 15px 30px;
+      border-radius: 10px;
+      border: 2px solid gold;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      margin: 20px 0;
+    }
+
+    /* Contenedor de la ruleta */
+    #ruleta-container {
+      margin: 30px 0;
+      padding: 20px;
+      background-color: rgba(139, 0, 0, 0.2);
+      border-radius: 15px;
+      border: 3px solid gold;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+
+    #ruleta-track {
+      width: 600px;
+      height: 80px;
+      background-color: #2c2c2c;
+      border-radius: 40px;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid gold;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    #ruleta-pointer {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 25px solid gold;
+      z-index: 10;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+
+    #ruleta {
+      display: flex;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(0px);
+      align-items: center;
+    }
+
+    .numero-slot {
+      width: 60px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: white;
+      border-right: 2px solid #555;
+      flex-shrink: 0;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    }
+
+    .numero-slot.num-verde {
+      background-color: #008000;
+      color: white;
+    }
+
+    .numero-slot.num-rojo {
+      background-color: #dc143c;
+      color: white;
+    }
+
+    .numero-slot.num-negro {
+      background-color: #000000;
+      color: white;
+    }
+
+    /* Sección de apuestas */
+    #seccion-apuestas {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 20px;
+      border-radius: 15px;
+      border: 2px solid gold;
+      margin: 20px 0;
+      min-width: 300px;
+    }
+
+    #apuesta-actual {
+      font-size: 18px;
+      margin: 10px 0;
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    /* Botones de apuesta */
+    #botones-apuesta {
+      margin: 20px 0;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      padding: 15px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #8B0000;
+      color: gold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+      min-width: 120px;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #A30000;
+      transform: translateY(-2px);
+      box-shadow: 2px 4px 12px rgba(0,0,0,0.4);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0px);
+    }
+
+    button:disabled {
+      background-color: #555;
+      color: #999;
+      cursor: not-allowed;
+      transform: none;
+      opacity: 0.6;
+    }
+
+    /* Botón de girar especial */
+    #btn-girar {
+      background-color: #228B22 !important;
+      font-size: 20px !important;
+      padding: 20px 40px !important;
+      margin: 20px 0 !important;
+      animation: pulse 2s infinite;
+    }
+
+    #btn-girar:hover:not(:disabled) {
+      background-color: #32CD32 !important;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34, 139, 34, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(34, 139, 34, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 139, 34, 0); }
+    }
+
+    /* Resultado */
+    #resultado {
+      font-size: 24px;
+      margin: 20px 0;
+      padding: 15px 20px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 10px;
+      min-height: 30px;
+      border: 2px solid gold;
+      max-width: 90%;
+      word-wrap: break-word;
+    }
+
+    /* Historial */
+    #historial {
+      margin-top: 30px;
+      font-size: 16px;
+      padding: 15px;
+      background-color: #f4f4f4;
+      color: #222;
+      border-radius: 10px;
+      max-height: 250px;
+      overflow-y: auto;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 700px;
+    }
+
+    #historial p {
+      margin: 8px 0;
+      padding: 8px;
+      background-color: white;
+      border-radius: 5px;
+      border-left: 4px solid #8B0000;
+    }
+
+    /* Colores para los resultados */
+    .rojo {
+      color: #dc143c;
+      font-weight: bold;
+    }
+
+    .negro {
+      color: #000000;
+      font-weight: bold;
+    }
+
+    .verde {
+      color: #008000;
+      font-weight: bold;
+    }
+
+    /* Estadísticas */
+    #estadisticas {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid gold;
+      margin-top: 20px;
+      max-width: 500px;
+    }
+
+    /* Scrollbar personalizada */
+    #historial::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #historial::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    #historial::-webkit-scrollbar-thumb {
+      background: #8B0000;
+      border-radius: 10px;
+    }
+
+    #historial::-webkit-scrollbar-thumb:hover {
+      background: #A30000;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #ruleta-track {
+        width: 90vw;
+        max-width: 500px;
+      }
+      
+      header h1 {
+        font-size: 2em;
+      }
+      
+      #menu-juegos ul {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      
+      #botones-apuesta {
+        width: 90%;
+      }
+      
+      button {
+        flex: 1;
+        min-width: 100px;
+      }
+      
+      #btn-girar {
+        font-size: 18px !important;
+        padding: 15px 30px !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>🎲 Simulador de Ruleta</h1>
+    <h1>🎰 Casino Ruleta Europea</h1>
     <nav id="menu-juegos">
       <ul>
         <li><a href="../index.html">🏠 Menú Principal</a></li>
@@ -19,6 +348,8 @@
   </header>
 
   <main>
+    <!-- Display de fichas (se crea dinámicamente) -->
+    
     <div id="ruleta-container">
       <div id="ruleta-track">
         <div id="ruleta-pointer"></div>
@@ -26,16 +357,374 @@
       </div>
     </div>
 
-    <div id="botones-apuesta">
-      <button onclick="apostar('rojo')">Rojo</button>
-      <button onclick="apostar('negro')">Negro</button>
-      <button onclick="apostar('verde')">Verde (0)</button>
+    <div id="seccion-apuestas">
+      <!-- Display de apuesta actual (se crea dinámicamente) -->
+      
+      <div id="botones-apuesta">
+        <button onclick="apostar('rojo')">🔴 Rojo (1:1)</button>
+        <button onclick="apostar('negro')">⚫ Negro (1:1)</button>
+        <button onclick="apostar('verde')">🟢 Verde (35:1)</button>
+      </div>
+
+      <!-- Botón de girar (se crea dinámicamente) -->
     </div>
 
     <div id="resultado"></div>
-    <div id="historial"></div>
+    
+    <div id="estadisticas">
+      <h3>📊 Información de Juego</h3>
+      <p><strong>Probabilidades:</strong></p>
+      <p>• Rojo/Negro: 48.65% (18/37)</p>
+      <p>• Verde (0): 2.70% (1/37)</p>
+      <p><strong>Pagos:</strong> Rojo/Negro 1:1 | Verde 35:1</p>
+    </div>
+
+    <div id="historial">
+      <h3>📋 Historial de Apuestas</h3>
+    </div>
   </main>
 
-  <script src="script.js"></script>
+  <script>
+    // Números de la ruleta europea en orden físico real
+    const numerosRuleta = [
+      0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5,
+      24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
+    ];
+
+    // Colores según las reglas oficiales de la ruleta europea
+    const colores = {};
+
+    // Asignar colores correctamente
+    numerosRuleta.forEach(num => {
+      if (num === 0) {
+        colores[num] = 'verde';
+      } else if ([1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(num)) {
+        colores[num] = 'rojo';
+      } else {
+        colores[num] = 'negro';
+      }
+    });
+
+    let girando = false;
+    let contador = 1;
+    let posicionActual = 0;
+    let fichas = 1000;
+    let apuestaActual = 0;
+    let tipoApuestaActual = '';
+
+    // Sonidos simulados con Audio API
+    const sonidos = {
+      giro: () => {
+        try {
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+          
+          oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+          oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 3);
+          
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 3);
+          
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + 3);
+        } catch(e) {
+          console.log('Audio no disponible');
+        }
+      },
+      
+      ganador: () => {
+        try {
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+          
+          oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+          oscillator.frequency.setValueAtTime(554, audioContext.currentTime + 0.1);
+          oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.2);
+          
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          gainNode.gain.setValueAtTime(0, audioContext.currentTime + 0.3);
+          
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + 0.3);
+        } catch(e) {
+          console.log('Audio no disponible');
+        }
+      }
+    };
+
+    // Inicializa ruleta visual
+    function inicializarRuleta() {
+      const ruletaDiv = document.getElementById("ruleta");
+      ruletaDiv.innerHTML = '';
+      
+      // Crear múltiples repeticiones para efecto infinito
+      for (let repeticion = 0; repeticion < 6; repeticion++) {
+        numerosRuleta.forEach((num, index) => {
+          const div = document.createElement('div');
+          div.textContent = num;
+          div.classList.add('numero-slot', `num-${colores[num]}`);
+          div.setAttribute('data-numero', num);
+          div.setAttribute('data-posicion', repeticion * numerosRuleta.length + index);
+          ruletaDiv.appendChild(div);
+        });
+      }
+      
+      // Inicializar interfaz
+      actualizarFichas();
+      actualizarBotones();
+    }
+
+    function actualizarFichas() {
+      const fichasElement = document.getElementById('fichas-display');
+      if (fichasElement) {
+        fichasElement.textContent = `💰 Fichas: ${fichas}`;
+      }
+    }
+
+    function actualizarBotones() {
+      const botones = document.querySelectorAll('#botones-apuesta button');
+      botones.forEach(btn => {
+        btn.disabled = girando || fichas < 10;
+      });
+    }
+
+    function seleccionarApuesta(tipo) {
+      if (girando) return;
+      
+      tipoApuestaActual = tipo;
+      apuestaActual = 10; // Apuesta fija por simplicidad
+      
+      // Actualizar interfaz
+      document.getElementById('apuesta-actual').textContent = 
+        `🎯 Apuesta actual: ${apuestaActual} fichas en ${tipo.toUpperCase()}`;
+      
+      // Habilitar botón de girar
+      document.getElementById('btn-girar').disabled = false;
+    }
+
+    function girarRuleta() {
+      if (girando || apuestaActual === 0) return;
+      
+      girando = true;
+      
+      // Descontar fichas
+      fichas -= apuestaActual;
+      actualizarFichas();
+      
+      // Deshabilitar botones
+      const botones = document.querySelectorAll('button');
+      botones.forEach(btn => btn.disabled = true);
+      
+      // Reproducir sonido de giro
+      sonidos.giro();
+      
+      // Seleccionar número ganador con física más realista
+      const numeroGanador = seleccionarNumeroConPeso();
+      const colorGanador = colores[numeroGanador];
+      
+      console.log(`Número ganador: ${numeroGanador}, Color: ${colorGanador}`);
+      
+      // Animación mejorada con variación de velocidad
+      animarRuleta(numeroGanador, () => {
+        mostrarResultado(numeroGanador, colorGanador);
+      });
+    }
+
+    function seleccionarNumeroConPeso() {
+      // Agregar un poco de "peso" realista - algunos números salen ligeramente más
+      const pesos = new Array(37).fill(1);
+      
+      // Agregar variación mínima (muy sutil, como en casinos reales)
+      for (let i = 0; i < numerosRuleta.length; i++) {
+        pesos[i] += (Math.random() - 0.5) * 0.05; // ±2.5% de variación
+      }
+      
+      const pesoTotal = pesos.reduce((sum, peso) => sum + peso, 0);
+      let random = Math.random() * pesoTotal;
+      
+      for (let i = 0; i < numerosRuleta.length; i++) {
+        random -= pesos[i];
+        if (random <= 0) {
+          return numerosRuleta[i];
+        }
+      }
+      
+      return numerosRuleta[0]; // Fallback
+    }
+
+    function animarRuleta(numeroGanador, callback) {
+      const indiceGanador = numerosRuleta.indexOf(numeroGanador);
+      
+      // Cálculo mejorado de posición
+      const anchoSlot = 60;
+      const centroTrack = 300;
+      const vueltasCompletas = 3 + Math.random() * 2; // 3-5 vueltas
+      
+      const posicionEnExtendida = Math.floor(numerosRuleta.length * 2.5) * anchoSlot + (indiceGanador * anchoSlot);
+      const ajusteCentrado = centroTrack - anchoSlot / 2;
+      const desplazamientoFinal = -(posicionEnExtendida - ajusteCentrado);
+      
+      // Agregar variación en el tiempo de giro
+      const tiempoGiro = 3000 + Math.random() * 2000; // 3-5 segundos
+      
+      // Mostrar mensaje de giro
+      document.getElementById("resultado").innerHTML = "🌀 La ruleta está girando...";
+      
+      // Efecto de desaceleración más realista
+      const ruletaDiv = document.getElementById("ruleta");
+      ruletaDiv.style.transition = `transform ${tiempoGiro}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+      ruletaDiv.style.transform = `translateX(${desplazamientoFinal}px)`;
+      
+      posicionActual = desplazamientoFinal;
+      
+      // Callback después de la animación
+      setTimeout(callback, tiempoGiro + 200);
+    }
+
+    function mostrarResultado(numeroGanador, colorGanador) {
+      const gano = (colorGanador === tipoApuestaActual);
+      let ganancia = 0;
+      
+      // Calcular ganancias según tipo de apuesta
+      if (gano) {
+        if (tipoApuestaActual === 'verde') {
+          ganancia = apuestaActual * 36; // Pago 35:1 + apuesta original
+        } else {
+          ganancia = apuestaActual * 2; // Pago 1:1 + apuesta original
+        }
+        fichas += ganancia;
+        
+        // Sonido de victoria
+        setTimeout(() => sonidos.ganador(), 500);
+      }
+      
+      // Mostrar resultado
+      const resultadoTexto = `🎯 Número ganador: ${numeroGanador}`;
+      const colorTexto = `<span class="${colorGanador}">(${colorGanador.toUpperCase()})</span>`;
+      
+      let mensajeFinal;
+      if (gano) {
+        mensajeFinal = `<span style='color: #00ff00; font-weight: bold;'>¡GANASTE ${ganancia} fichas! 🎉</span>`;
+      } else {
+        mensajeFinal = `<span style='color: #ff4444; font-weight: bold;'>Perdiste ${apuestaActual} fichas 😞</span>`;
+      }
+      
+      document.getElementById("resultado").innerHTML = 
+        `${resultadoTexto} ${colorTexto}<br>${mensajeFinal}`;
+
+      // Actualizar historial
+      actualizarHistorial(numeroGanador, colorGanador, gano, ganancia);
+      
+      // Actualizar interfaz
+      actualizarFichas();
+      apuestaActual = 0;
+      tipoApuestaActual = '';
+      document.getElementById('apuesta-actual').textContent = 'Selecciona una apuesta';
+      document.getElementById('btn-girar').disabled = true;
+      
+      // Rehabilitar botones después de un momento
+      setTimeout(() => {
+        girando = false;
+        actualizarBotones();
+        
+        // Verificar si el jugador se quedó sin fichas
+        if (fichas < 10) {
+          setTimeout(() => {
+            if (confirm('Te quedaste sin fichas suficientes. ¿Quieres reiniciar con 1000 fichas?')) {
+              fichas = 1000;
+              contador = 1;
+              document.getElementById('historial').innerHTML = '<h3>📋 Historial de Apuestas</h3>';
+              actualizarFichas();
+              actualizarBotones();
+            }
+          }, 1000);
+        }
+      }, 2000);
+      
+      // Reiniciar posición
+      setTimeout(reiniciarPosicion, 3000);
+      
+      contador++;
+    }
+
+    function actualizarHistorial(numeroGanador, colorGanador, gano, ganancia) {
+      const historial = document.getElementById("historial");
+      const nuevaEntrada = document.createElement('p');
+      
+      const tipoApuesta = tipoApuestaActual.toUpperCase();
+      const resultado = `${numeroGanador} (${colorGanador.toUpperCase()})`;
+      const estado = gano ? `✅ +${ganancia}` : `❌ -${apuestaActual}`;
+      
+      nuevaEntrada.innerHTML = `
+        <strong>Ronda ${contador}:</strong> 
+        Apuesta: <strong class="${tipoApuestaActual}">${tipoApuesta}</strong> (${apuestaActual} fichas) ➜ 
+        Resultado: <strong class="${colorGanador}">${resultado}</strong> ${estado}
+      `;
+      
+      historial.appendChild(nuevaEntrada);
+      historial.scrollTop = historial.scrollHeight;
+    }
+
+    function reiniciarPosicion() {
+      if (!girando) {
+        const ruletaDiv = document.getElementById("ruleta");
+        ruletaDiv.style.transition = 'none';
+        ruletaDiv.style.transform = 'translateX(0px)';
+        posicionActual = 0;
+        ruletaDiv.offsetHeight; // Forzar reflow
+      }
+    }
+
+    // Funciones de apuesta simplificadas
+    function apostar(tipo) {
+      seleccionarApuesta(tipo);
+    }
+
+    // Inicializar al cargar
+    document.addEventListener('DOMContentLoaded', () => {
+      inicializarRuleta();
+      
+      // Agregar elementos de interfaz mejorados
+      const main = document.querySelector('main');
+      
+      // Crear display de fichas
+      const fichasDisplay = document.createElement('div');
+      fichasDisplay.id = 'fichas-display';
+      fichasDisplay.className = 'fichas-display';
+      main.insertBefore(fichasDisplay, document.getElementById('ruleta-container'));
+      
+      // Crear display de apuesta actual
+      const apuestaDisplay = document.createElement('div');
+      apuestaDisplay.id = 'apuesta-actual';
+      apuestaDisplay.textContent = 'Selecciona una apuesta';
+      document.getElementById('seccion-apuestas').insertBefore(apuestaDisplay, document.getElementById('botones-apuesta'));
+      
+      // Crear botón de girar
+      const btnGirar = document.createElement('button');
+      btnGirar.id = 'btn-girar';
+      btnGirar.textContent = '🎰 GIRAR RULETA';
+      btnGirar.disabled = true;
+      btnGirar.onclick = girarRuleta;
+      document.getElementById('seccion-apuestas').appendChild(btnGirar);
+      
+      // Limpiar posición periódicamente
+      setInterval(() => {
+        if (!girando) {
+          reiniciarPosicion();
+        }
+      }, 30000);
+      
+      console.log('🎰 Ruleta inicializada con sistema de fichas');
+      console.log('Colores asignados:', colores);
+    });
+  </script>
 </body>
 </html>
