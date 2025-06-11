@@ -7,21 +7,27 @@
 </head>
 <body>
   <header>
-    <h1>🎲 Simulador de Ruleta (Rojo / Negro / Verde)</h1>
+    <h1>🎲 Simulador de Ruleta</h1>
     <nav id="menu-juegos">
       <ul>
         <li><a href="../index.html">🏠 Menú Principal</a></li>
         <li><a href="../dados/index.html">🎲 Dados</a></li>
         <li><a href="../blackjack/index.html">🃏 Blackjack</a></li>
-        <li><a href="../../index.html">🚪 Salir</a></li>
+        <li><a href="../salir.html">🚪 Salir</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <button onclick="apostar('rojo')">Apostar a Rojo</button>
-    <button onclick="apostar('negro')">Apostar a Negro</button>
-    <button onclick="apostar('verde')">Apostar a Verde</button>
+    <div id="ruleta-container">
+      <div id="ruleta"></div>
+    </div>
+
+    <div id="botones-apuesta">
+      <button onclick="apostar('rojo')">Rojo</button>
+      <button onclick="apostar('negro')">Negro</button>
+      <button onclick="apostar('verde')">Verde</button>
+    </div>
 
     <div id="resultado"></div>
     <div id="historial"></div>
