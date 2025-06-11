@@ -56,16 +56,18 @@ function apostar(apuesta) {
   
   console.log(`Número ganador: ${numeroGanador}, Color: ${colorGanador}`);
   
-  // Calcular animación (CÁLCULO CORREGIDO)
+  // CALCULO CORREGIDO - CENTRADO PRECISO
   const anchoSlot = 60;
-  const centroTrack = 300; // Centro de la pista (600px / 2)
-  const vueltasCompletas = 4; // Número de vueltas completas
+  const centroTrack = 300;
+  const vueltasCompletas = 4;
   const totalSlots = numerosRuleta.length;
   
-  // Calcular desplazamiento total (FÓRMULA CORREGIDA)
   const vueltasPixeles = vueltasCompletas * totalSlots * anchoSlot;
   const posicionObjetivo = indiceGanador * anchoSlot;
-  const desplazamientoFinal = -(vueltasPixeles + posicionObjetivo - centroTrack);
+  
+  // Ajuste para centrar el número bajo el puntero
+  const ajusteCentrado = centroTrack - anchoSlot / 2;
+  const desplazamientoFinal = -(vueltasPixeles + posicionObjetivo - ajusteCentrado);
   
   // Mostrar mensaje de giro
   document.getElementById("resultado").innerHTML = "🌀 La ruleta está girando...";
@@ -126,7 +128,7 @@ function reiniciarPosicion() {
     ruletaDiv.style.transition = 'none';
     ruletaDiv.style.transform = 'translateX(0px)';
     posicionActual = 0;
-    // Forzar reflow para aplicar cambios (AGREGADO)
+    // Forzar reflow para aplicar cambios
     ruletaDiv.offsetHeight;
   }
 }
