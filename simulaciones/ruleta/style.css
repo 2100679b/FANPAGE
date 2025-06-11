@@ -12,6 +12,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 }
 
 /* Encabezado estilo casino */
@@ -52,6 +53,20 @@ header h1 {
 #menu-juegos li a:hover {
   background-color: #ffd700;
   transform: scale(1.05);
+}
+
+/* Display de fichas */
+#fichas-display {
+  background-color: rgba(139, 0, 0, 0.8);
+  padding: 15px 30px;
+  border-radius: 10px;
+  border: 2px solid gold;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  margin: 20px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: gold;
+  text-shadow: 2px 2px 4px black;
 }
 
 /* Contenedor de la ruleta */
@@ -128,6 +143,32 @@ header h1 {
   color: white;
 }
 
+/* Sección de apuestas */
+#seccion-apuestas {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  border-radius: 15px;
+  border: 2px solid gold;
+  margin: 20px 0;
+  min-width: 300px;
+}
+
+#apuesta-info {
+  margin-bottom: 15px;
+}
+
+#apuesta-actual {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #ffd700;
+  font-weight: bold;
+}
+
+#fichas-apostadas {
+  font-size: 16px;
+  color: #ccc;
+}
+
 /* Botones de apuesta */
 #botones-apuesta {
   margin: 20px 0;
@@ -137,7 +178,7 @@ header h1 {
   justify-content: center;
 }
 
-main button {
+button {
   padding: 15px 25px;
   font-size: 18px;
   font-weight: bold;
@@ -151,22 +192,42 @@ main button {
   min-width: 120px;
 }
 
-main button:hover:not(:disabled) {
+button:hover:not(:disabled) {
   background-color: #A30000;
   transform: translateY(-2px);
   box-shadow: 2px 4px 12px rgba(0,0,0,0.4);
 }
 
-main button:active:not(:disabled) {
+button:active:not(:disabled) {
   transform: translateY(0px);
 }
 
-main button:disabled {
+button:disabled {
   background-color: #555;
   color: #999;
   cursor: not-allowed;
   transform: none;
   opacity: 0.6;
+}
+
+/* Botón de girar especial */
+#btn-girar {
+  background-color: #228B22 !important;
+  font-size: 20px !important;
+  padding: 20px 40px !important;
+  margin: 20px 0 !important;
+  animation: pulse 2s infinite;
+  width: 100%;
+}
+
+#btn-girar:hover:not(:disabled) {
+  background-color: #32CD32 !important;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(34, 139, 34, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(34, 139, 34, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 139, 34, 0); }
 }
 
 /* Resultado */
@@ -203,6 +264,17 @@ main button:disabled {
   background-color: white;
   border-radius: 5px;
   border-left: 4px solid #8B0000;
+  word-break: break-word;
+}
+
+/* Estadísticas */
+#estadisticas {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid gold;
+  margin-top: 20px;
+  max-width: 500px;
 }
 
 /* Colores para los resultados */
@@ -260,8 +332,13 @@ main button:disabled {
     width: 90%;
   }
   
-  main button {
+  button {
     flex: 1;
     min-width: 100px;
+  }
+  
+  #btn-girar {
+    font-size: 18px !important;
+    padding: 15px 30px !important;
   }
 }

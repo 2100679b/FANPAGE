@@ -20,52 +20,10 @@ numerosRuleta.forEach(num => {
 
 let girando = false;
 let contador = 1;
-let posicionActual = 0;
-let fichas = 1000; // Sistema de fichas
+let fichas = 1000;
 let apuestaActual = 0;
 let tipoApuestaActual = '';
-
-// Sonidos simulados con Audio API
-const sonidos = {
-  giro: () => {
-    // Simular sonido de giro con oscilador
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 3);
-    
-    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 3);
-    
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 3);
-  },
-  
-  ganador: () => {
-    // Sonido de celebración
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-    oscillator.frequency.setValueAtTime(554, audioContext.currentTime + 0.1);
-    oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.2);
-    
-    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime + 0.3);
-    
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.3);
-  }
-};
+let fichasApostadas = 0;
 
 // Inicializa ruleta visual
 function inicializarRuleta() {
@@ -84,274 +42,146 @@ function inicializarRuleta() {
     });
   }
   
-  // Inicializar interfaz
   actualizarFichas();
-  actualizarBotones();
 }
 
 function actualizarFichas() {
-  const fichasElement = document.getElementById('fichas-display');
-  if (fichasElement) {
-    fichasElement.textContent = `Fichas: ${fichas}`;
-  }
-}
-
-function actualizarBotones() {
-  const botones = document.querySelectorAll('#botones-apuesta button');
-  botones.forEach(btn => {
-    btn.disabled = girando || fichas < 10;
-  });
+  document.getElementById('fichas-cantidad').textContent = fichas;
 }
 
 function seleccionarApuesta(tipo) {
-  if (girando) return;
+  if (girando || fichas < 10) return;
   
   tipoApuestaActual = tipo;
-  apuestaActual = 10; // Apuesta fija por simplicidad
+  fichasApostadas = 10; // Apuesta fija de 10 fichas
   
   // Actualizar interfaz
   document.getElementById('apuesta-actual').textContent = 
-    `Apuesta actual: ${apuestaActual} fichas en ${tipo.toUpperCase()}`;
+    `Apuesta: ${tipo.toUpperCase()}`;
+  document.getElementById('fichas-apostadas').textContent = 
+    `Fichas apostadas: ${fichasApostadas}`;
   
   // Habilitar botón de girar
   document.getElementById('btn-girar').disabled = false;
 }
 
 function girarRuleta() {
-  if (girando || apuestaActual === 0) return;
+  if (girando || fichasApostadas === 0) return;
   
   girando = true;
   
   // Descontar fichas
-  fichas -= apuestaActual;
+  fichas -= fichasApostadas;
   actualizarFichas();
   
   // Deshabilitar botones
-  const botones = document.querySelectorAll('button');
-  botones.forEach(btn => btn.disabled = true);
+  document.querySelectorAll('button').forEach(btn => btn.disabled = true);
   
-  // Reproducir sonido de giro
-  try {
-    sonidos.giro();
-  } catch(e) {
-    console.log('Audio no disponible');
-  }
-  
-  // Seleccionar número ganador con física más realista
-  const numeroGanador = seleccionarNumeroConPeso();
+  // Seleccionar número ganador aleatorio
+  const indiceGanador = Math.floor(Math.random() * numerosRuleta.length);
+  const numeroGanador = numerosRuleta[indiceGanador];
   const colorGanador = colores[numeroGanador];
   
-  console.log(`Número ganador: ${numeroGanador}, Color: ${colorGanador}`);
-  
-  // Animación mejorada con variación de velocidad
-  animarRuleta(numeroGanador, () => {
-    mostrarResultado(numeroGanador, colorGanador);
-  });
-}
-
-function seleccionarNumeroConPeso() {
-  // Agregar un poco de "peso" realista - algunos números salen ligeramente más
-  const pesos = new Array(37).fill(1);
-  
-  // Agregar variación mínima (muy sutil, como en casinos reales)
-  for (let i = 0; i < numerosRuleta.length; i++) {
-    pesos[i] += (Math.random() - 0.5) * 0.05; // ±2.5% de variación
-  }
-  
-  const pesoTotal = pesos.reduce((sum, peso) => sum + peso, 0);
-  let random = Math.random() * pesoTotal;
-  
-  for (let i = 0; i < numerosRuleta.length; i++) {
-    random -= pesos[i];
-    if (random <= 0) {
-      return numerosRuleta[i];
-    }
-  }
-  
-  return numerosRuleta[0]; // Fallback
-}
-
-function animarRuleta(numeroGanador, callback) {
-  const indiceGanador = numerosRuleta.indexOf(numeroGanador);
-  
-  // Cálculo mejorado de posición
+  // Calcular animación
   const anchoSlot = 60;
   const centroTrack = 300;
-  const vueltasCompletas = 3 + Math.random() * 2; // 3-5 vueltas
+  const vueltasCompletas = 4;
+  const totalSlots = numerosRuleta.length;
   
-  const posicionEnExtendida = Math.floor(numerosRuleta.length * 2.5) * anchoSlot + (indiceGanador * anchoSlot);
+  const vueltasPixeles = vueltasCompletas * totalSlots * anchoSlot;
+  const posicionObjetivo = indiceGanador * anchoSlot;
+  
+  // Ajuste para centrar el número bajo el puntero
   const ajusteCentrado = centroTrack - anchoSlot / 2;
-  const desplazamientoFinal = -(posicionEnExtendida - ajusteCentrado);
-  
-  // Agregar variación en el tiempo de giro
-  const tiempoGiro = 3000 + Math.random() * 2000; // 3-5 segundos
+  const desplazamientoFinal = -(vueltasPixeles + posicionObjetivo - ajusteCentrado);
   
   // Mostrar mensaje de giro
   document.getElementById("resultado").innerHTML = "🌀 La ruleta está girando...";
   
-  // Efecto de desaceleración más realista
+  // Animar
   const ruletaDiv = document.getElementById("ruleta");
-  ruletaDiv.style.transition = `transform ${tiempoGiro}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+  ruletaDiv.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
   ruletaDiv.style.transform = `translateX(${desplazamientoFinal}px)`;
   
-  posicionActual = desplazamientoFinal;
-  
-  // Callback después de la animación
-  setTimeout(callback, tiempoGiro + 200);
-}
-
-function mostrarResultado(numeroGanador, colorGanador) {
-  const gano = (colorGanador === tipoApuestaActual);
-  let ganancia = 0;
-  
-  // Calcular ganancias según tipo de apuesta
-  if (gano) {
-    if (tipoApuestaActual === 'verde') {
-      ganancia = apuestaActual * 36; // Pago 35:1 + apuesta original
-    } else {
-      ganancia = apuestaActual * 2; // Pago 1:1 + apuesta original
-    }
-    fichas += ganancia;
-    
-    // Sonido de victoria
-    try {
-      setTimeout(() => sonidos.ganador(), 500);
-    } catch(e) {
-      console.log('Audio no disponible');
-    }
-  }
-  
-  // Mostrar resultado
-  const resultadoTexto = `🎯 Número ganador: ${numeroGanador}`;
-  const colorTexto = `<span class="${colorGanador}">(${colorGanador.toUpperCase()})</span>`;
-  
-  let mensajeFinal;
-  if (gano) {
-    mensajeFinal = `<span style='color: #00ff00; font-weight: bold;'>¡GANASTE ${ganancia} fichas! 🎉</span>`;
-  } else {
-    mensajeFinal = `<span style='color: #ff4444; font-weight: bold;'>Perdiste ${apuestaActual} fichas 😞</span>`;
-  }
-  
-  document.getElementById("resultado").innerHTML = 
-    `${resultadoTexto} ${colorTexto}<br>${mensajeFinal}`;
-
-  // Actualizar historial
-  actualizarHistorial(numeroGanador, colorGanador, gano, ganancia);
-  
-  // Actualizar interfaz
-  actualizarFichas();
-  apuestaActual = 0;
-  tipoApuestaActual = '';
-  document.getElementById('apuesta-actual').textContent = 'Selecciona una apuesta';
-  document.getElementById('btn-girar').disabled = true;
-  
-  // Rehabilitar botones después de un momento
+  // Mostrar resultado después de la animación
   setTimeout(() => {
+    // Verificar el resultado
+    const gano = (colorGanador === tipoApuestaActual);
+    let ganancia = 0;
+    
+    if (gano) {
+      if (tipoApuestaActual === 'verde') {
+        ganancia = fichasApostadas * 36; // 35:1 + la apuesta
+      } else {
+        ganancia = fichasApostadas * 2; // 1:1 + la apuesta
+      }
+      fichas += ganancia;
+    }
+    
+    const resultadoTexto = `La ruleta cayó en ${numeroGanador}`;
+    const colorTexto = `<span class="${colorGanador}">(${colorGanador.toUpperCase()})</span>`;
+    const mensajeFinal = gano ? 
+      `<span style='color: #00ff00; font-weight: bold;'>¡GANASTE ${ganancia} fichas! 🎉</span>` : 
+      `<span style='color: #ff4444; font-weight: bold;'>Perdiste ${fichasApostadas} fichas 😞</span>`;
+    
+    document.getElementById("resultado").innerHTML = 
+      `${resultadoTexto} ${colorTexto} — ${mensajeFinal}`;
+
+    // Actualizar historial
+    const historial = document.getElementById("historial");
+    const nuevaEntrada = document.createElement('p');
+    nuevaEntrada.innerHTML = `
+      <strong>Ronda ${contador}:</strong> 
+      Apostaste a <strong class="${tipoApuestaActual}">${tipoApuestaActual.toUpperCase()}</strong> (${fichasApostadas} fichas) ➜ 
+      Resultado: <strong class="${colorGanador}">${numeroGanador} (${colorGanador.toUpperCase()})</strong>
+      ${gano ? `✅ +${ganancia}` : '❌'}
+    `;
+    historial.appendChild(nuevaEntrada);
+    
+    // Scroll automático
+    historial.scrollTop = historial.scrollHeight;
+    
+    // Actualizar fichas
+    actualizarFichas();
+    
+    // Reiniciar apuesta
+    fichasApostadas = 0;
+    tipoApuestaActual = '';
+    document.getElementById('apuesta-actual').textContent = 'Selecciona una apuesta';
+    document.getElementById('fichas-apostadas').textContent = 'Fichas apostadas: 0';
+    
+    // Rehabilitar botones
     girando = false;
-    actualizarBotones();
+    document.querySelectorAll('#botones-apuesta button').forEach(btn => {
+      btn.disabled = fichas < 10;
+    });
+    document.getElementById('btn-girar').disabled = true;
+    
+    // Incrementar contador
+    contador++;
     
     // Verificar si el jugador se quedó sin fichas
     if (fichas < 10) {
       setTimeout(() => {
-        if (confirm('Te quedaste sin fichas suficientes. ¿Quieres reiniciar con 1000 fichas?')) {
+        if (confirm('¡Te has quedado sin fichas suficientes! ¿Quieres reiniciar con 1000 fichas?')) {
           fichas = 1000;
+          contador = 1;
+          document.getElementById('historial').innerHTML = '<h3>📋 Historial de Apuestas</h3>';
           actualizarFichas();
-          actualizarBotones();
+          document.querySelectorAll('#botones-apuesta button').forEach(btn => {
+            btn.disabled = false;
+          });
         }
-      }, 1000);
+      }, 500);
     }
-  }, 2000);
-  
-  // Reiniciar posición
-  setTimeout(reiniciarPosicion, 3000);
-  
-  contador++;
+    
+  }, 4200);
 }
 
-function actualizarHistorial(numeroGanador, colorGanador, gano, ganancia) {
-  const historial = document.getElementById("historial");
-  const nuevaEntrada = document.createElement('p');
-  
-  const tipoApuesta = tipoApuestaActual.toUpperCase();
-  const resultado = `${numeroGanador} (${colorGanador.toUpperCase()})`;
-  const estado = gano ? `✅ +${ganancia}` : `❌ -${apuestaActual}`;
-  
-  nuevaEntrada.innerHTML = `
-    <strong>Ronda ${contador}:</strong> 
-    Apuesta: <strong class="${tipoApuestaActual}">${tipoApuesta}</strong> (${apuestaActual} fichas) ➜ 
-    Resultado: <strong class="${colorGanador}">${resultado}</strong> ${estado}
-  `;
-  
-  historial.appendChild(nuevaEntrada);
-  historial.scrollTop = historial.scrollHeight;
-}
-
-function reiniciarPosicion() {
-  if (!girando) {
-    const ruletaDiv = document.getElementById("ruleta");
-    ruletaDiv.style.transition = 'none';
-    ruletaDiv.style.transform = 'translateX(0px)';
-    posicionActual = 0;
-    ruletaDiv.offsetHeight; // Forzar reflow
-  }
-}
-
-// Funciones de apuesta simplificadas
-function apostar(tipo) {
-  seleccionarApuesta(tipo);
-}
-
-// Inicializar al cargar
+// Inicializar
 document.addEventListener('DOMContentLoaded', () => {
   inicializarRuleta();
   
-  // Agregar elementos de interfaz mejorados
-  const main = document.querySelector('main');
-  
-  // Crear display de fichas
-  const fichasDisplay = document.createElement('div');
-  fichasDisplay.id = 'fichas-display';
-  fichasDisplay.style.cssText = `
-    font-size: 24px;
-    font-weight: bold;
-    color: gold;
-    margin: 20px 0;
-    text-shadow: 2px 2px 4px black;
-  `;
-  main.insertBefore(fichasDisplay, document.getElementById('ruleta-container'));
-  
-  // Crear display de apuesta actual
-  const apuestaDisplay = document.createElement('div');
-  apuestaDisplay.id = 'apuesta-actual';
-  apuestaDisplay.style.cssText = `
-    font-size: 18px;
-    margin: 10px 0;
-    color: #ffd700;
-  `;
-  apuestaDisplay.textContent = 'Selecciona una apuesta';
-  main.insertBefore(apuestaDisplay, document.getElementById('botones-apuesta'));
-  
-  // Crear botón de girar
-  const btnGirar = document.createElement('button');
-  btnGirar.id = 'btn-girar';
-  btnGirar.textContent = '🎰 GIRAR RULETA';
-  btnGirar.disabled = true;
-  btnGirar.onclick = girarRuleta;
-  btnGirar.style.cssText = `
-    background-color: #228B22 !important;
-    font-size: 20px;
-    padding: 20px 40px;
-    margin: 20px 0;
-  `;
-  main.insertBefore(btnGirar, document.getElementById('resultado'));
-  
-  // Limpiar posición periódicamente
-  setInterval(() => {
-    if (!girando) {
-      reiniciarPosicion();
-    }
-  }, 30000);
-  
-  console.log('🎰 Ruleta inicializada con sistema de fichas');
+  // Debug: Mostrar asignación de colores
   console.log('Colores asignados:', colores);
 });
