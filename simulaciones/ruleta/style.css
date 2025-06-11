@@ -1,76 +1,174 @@
-/* Estilos generales omitidos por brevedad (puedes mantener lo anterior) */
-
-/* Contenedor ruleta */
-#ruleta-container {
-  width: 100%;
-  overflow: hidden;
-  border: 2px solid gold;
-  margin-top: 30px;
-  background: #333;
-  border-radius: 8px;
-  height: 60px;
-  position: relative;
-}
-
-/* Números de la ruleta en una línea horizontal */
-#ruleta {
-  display: flex;
-  gap: 8px;
-  padding: 10px;
-  transition: transform 2s ease-out;
-  will-change: transform;
-}
-
-/* Cada número */
-#ruleta div {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+/* General */
+body {
+  background: radial-gradient(circle, #111 40%, #222 100%);
+  color: #f5f5f5;
+  font-family: 'Trebuchet MS', sans-serif;
+  margin: 0;
+  padding: 0;
   text-align: center;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 16px;
 }
 
-/* Colores por número */
-.num-rojo { background: red; }
-.num-negro { background: black; }
-.num-verde { background: green; }
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-/* Botones de apuesta en línea horizontal */
-#botones-apuesta {
+/* Encabezado estilo casino */
+header {
+  background-color: #8B0000;
+  padding: 20px;
+  border-bottom: 4px solid gold;
+}
+
+header h1 {
+  color: gold;
+  text-shadow: 2px 2px 6px black;
+  font-size: 2.5em;
+  margin: 0;
+}
+
+/* Menú */
+#menu-juegos ul {
+  list-style: none;
+  padding: 0;
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
-#botones-apuesta button {
-  padding: 10px 20px;
-  font-size: 18px;
-  background: gold;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
+#menu-juegos li a {
+  background-color: gold;
   color: #8B0000;
-  cursor: pointer;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
   transition: 0.3s;
   box-shadow: 2px 2px 5px black;
 }
 
-#botones-apuesta button:hover {
+#menu-juegos li a:hover {
   background-color: #ffd700;
   transform: scale(1.05);
 }
 
-/* Resultado e historial */
-#resultado {
-  font-size: 24px;
-  margin-top: 20px;
+/* Contenedor de la ruleta rectangular */
+#ruleta-container {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: rgba(139, 0, 0, 0.2);
+  border-radius: 15px;
+  border: 3px solid gold;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+#ruleta-track {
+  width: 600px;
+  height: 80px;
+  background-color: #2c2c2c;
+  border-radius: 40px;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid gold;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#ruleta-pointer {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 25px solid gold;
+  z-index: 10;
+}
+
+#ruleta {
+  display: flex;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(0px);
+  align-items: center;
+}
+
+.numero-slot {
+  width: 60px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: white;
+  border-right: 2px solid #555;
+  flex-shrink: 0;
+}
+
+.numero-slot.num-verde {
+  background-color: #008000;
   color: white;
 }
 
+.numero-slot.num-rojo {
+  background-color: #dc143c;
+  color: white;
+}
+
+.numero-slot.num-negro {
+  background-color: #000000;
+  color: white;
+}
+
+/* Botones de apuesta */
+#botones-apuesta {
+  margin: 20px 0;
+}
+
+main button {
+  margin: 10px;
+  padding: 12px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #8B0000;
+  color: gold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 2px 2px 8px black;
+}
+
+main button:hover:not(:disabled) {
+  background-color: #A30000;
+  transform: scale(1.05);
+}
+
+main button:disabled {
+  background-color: #555;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Resultado */
+#resultado {
+  font-size: 24px;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  min-height: 30px;
+  border: 2px solid gold;
+}
+
+/* Historial */
 #historial {
   margin-top: 30px;
   font-size: 16px;
@@ -78,6 +176,44 @@
   background-color: #f4f4f4;
   color: #222;
   border-radius: 10px;
-  max-height: 200px;
+  max-height: 250px;
   overflow-y: auto;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+}
+
+/* Colores según resultado */
+.rojo {
+  color: #dc143c;
+  font-weight: bold;
+}
+
+.negro {
+  color: #000000;
+  font-weight: bold;
+}
+
+.verde {
+  color: #008000;
+  font-weight: bold;
+}
+
+/* Scrollbar personalizada para el historial */
+#historial::-webkit-scrollbar {
+  width: 8px;
+}
+
+#historial::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+#historial::-webkit-scrollbar-thumb {
+  background: #8B0000;
+  border-radius: 10px;
+}
+
+#historial::-webkit-scrollbar-thumb:hover {
+  background: #A30000;
 }

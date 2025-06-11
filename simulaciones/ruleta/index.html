@@ -20,13 +20,16 @@
 
   <main>
     <div id="ruleta-container">
-      <div id="ruleta"></div>
+      <div id="ruleta-track">
+        <div id="ruleta-pointer"></div>
+        <div id="ruleta"></div>
+      </div>
     </div>
 
     <div id="botones-apuesta">
       <button onclick="apostar('rojo')">Rojo</button>
       <button onclick="apostar('negro')">Negro</button>
-      <button onclick="apostar('verde')">Verde</button>
+      <button onclick="apostar('verde')">Verde (0)</button>
     </div>
 
     <div id="resultado"></div>
