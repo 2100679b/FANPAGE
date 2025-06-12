@@ -1,275 +1,98 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitio en Construcción</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 1;
-        }
-        
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            color: white;
-            animation: pulse 2s infinite;
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        p {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .countdown-item {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 20px;
-            min-width: 80px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .countdown-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .countdown-label {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .social-icons a {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .social-icons a:hover {
-            background: white;
-            color: #1a2a6c;
-            transform: translateY(-5px);
-        }
-        
-        .contact-btn {
-            display: inline-block;
-            padding: 15px 35px;
-            background: white;
-            color: #1a2a6c;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            background: #f8f9fa;
-        }
-        
-        .construction-elements {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .tool {
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        .tool:nth-child(2) {
-            animation-delay: 1s;
-        }
-        
-        .tool:nth-child(3) {
-            animation-delay: 2s;
-        }
-        
-        .tool i {
-            font-size: 3rem;
-            color: white;
-        }
-        
-        /* Animaciones */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        /* Responsive */
-        @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            p { font-size: 1.1rem; }
-            .countdown-item { padding: 15px; min-width: 70px; }
-            .countdown-number { font-size: 2rem; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulaciones de Probabilidad</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <i class="fas fa-tools"></i>
-        </div>
-        <h1>¡Estamos trabajando en algo increíble!</h1>
-        <p>Nuestro sitio web está actualmente en construcción. Estamos trabajando duro para brindarte la mejor experiencia. ¡Vuelve pronto para descubrir nuestro nuevo sitio!</p>
-        
-        <div class="countdown">
-            <div class="countdown-item">
-                <div class="countdown-number" id="days">00</div>
-                <div class="countdown-label">Días</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="hours">00</div>
-                <div class="countdown-label">Horas</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="minutes">00</div>
-                <div class="countdown-label">Minutos</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="seconds">00</div>
-                <div class="countdown-label">Segundos</div>
-            </div>
-        </div>
-        
-        <div class="social-icons">
-                        <a href="https://www.facebook.com/afav23"><i class="fab fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/afav_oficial/"><i class="fab fa-instagram"></i></a>
-                        <a href="https://github.com/2100679b"><i class="fab fa-github"></i></a>
-                    </div>
-        
-        <a href="mailto:contacto@tusitio.com" class="contact-btn">Contáctanos</a>
-        
-        <div class="construction-elements">
-            <div class="tool">
-                <i class="fas fa-hammer"></i>
-            </div>
-            <div class="tool">
-                <i class="fas fa-wrench"></i>
-            </div>
-            <div class="tool">
-                <i class="fas fa-hard-hat"></i>
-            </div>
-        </div>
+  <header>
+    <div class="header-content">
+      <h1>📊 Simulaciones de Probabilidad y Estadística</h1>
+      <p>Explora distribuciones probabilísticas fundamentales a través de simulaciones interactivas</p>
     </div>
+    <div class="header-wave">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+        <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+        <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+      </svg>
+    </div>
+  </header>
 
-    <script>
-        // Fecha objetivo para el lanzamiento (ajusta según tus necesidades)
-        const launchDate = new Date("2023-12-31T00:00:00").getTime();
-        
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = launchDate - now;
-            
-            // Cálculos de tiempo
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            // Actualizar el HTML
-            document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
-            document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
-            
-            // Si la cuenta regresiva termina
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                document.querySelector(".countdown").innerHTML = "<div class='countdown-item'><div class='countdown-number'>¡Ya estamos en línea!</div></div>";
-            }
-        }
-        
-        // Actualizar cada segundo
-        const countdownInterval = setInterval(updateCountdown, 1000);
-        updateCountdown(); // Llamada inicial
-    </script>
+  <main>
+    <div class="card-container">
+      <div class="card" id="uniforme">
+        <div class="card-icon">🎲</div>
+        <h3>Distribución Uniforme Discreta</h3>
+        <p>Simulación de eventos con resultados equiprobables</p>
+        <div class="progress-bar">
+          <div class="progress" style="width: 100%"></div>
+        </div>
+      </div>
+      
+      <div class="card" id="bernoulli">
+        <div class="card-icon">⚖️</div>
+        <h3>Distribución de Bernoulli</h3>
+        <p>Simulación de experimentos con dos posibles resultados</p>
+        <div class="progress-bar">
+          <div class="progress" style="width: 85%"></div>
+        </div>
+      </div>
+      
+      <div class="card" id="binomial">
+        <div class="card-icon">📈</div>
+        <h3>Distribución Binomial</h3>
+        <p>Simulación de secuencias de ensayos de Bernoulli</p>
+        <div class="progress-bar">
+          <div class="progress" style="width: 75%"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔬</div>
+        <h4>Simulaciones Interactivas</h4>
+        <p>Experimenta con parámetros y observa resultados en tiempo real</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">📚</div>
+        <h4>Aprendizaje Visual</h4>
+        <p>Visualiza conceptos complejos mediante gráficos y animaciones</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">🧮</div>
+        <h4>Herramientas Estadísticas</h4>
+        <p>Calcula probabilidades, valores esperados y varianzas</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <div class="logo-circle">P&E</div>
+        <span>Probabilidad y Estadística</span>
+      </div>
+      
+      <div class="footer-links">
+        <a href="#">Inicio</a>
+        <a href="#">Acerca de</a>
+        <a href="#">Recursos</a>
+        <a href="#">Contacto</a>
+      </div>
+      
+      <div class="footer-info">
+        <p>© 2023 Simulaciones de Probabilidad</p>
+        <p>Herramienta educativa para estudiantes de estadística</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
