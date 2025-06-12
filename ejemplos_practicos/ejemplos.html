@@ -1,275 +1,780 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitio en Construcción</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 1;
-        }
-        
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            color: white;
-            animation: pulse 2s infinite;
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        p {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .countdown-item {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 20px;
-            min-width: 80px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .countdown-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .countdown-label {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .social-icons a {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .social-icons a:hover {
-            background: white;
-            color: #1a2a6c;
-            transform: translateY(-5px);
-        }
-        
-        .contact-btn {
-            display: inline-block;
-            padding: 15px 35px;
-            background: white;
-            color: #1a2a6c;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            background: #f8f9fa;
-        }
-        
-        .construction-elements {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .tool {
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        .tool:nth-child(2) {
-            animation-delay: 1s;
-        }
-        
-        .tool:nth-child(3) {
-            animation-delay: 2s;
-        }
-        
-        .tool i {
-            font-size: 3rem;
-            color: white;
-        }
-        
-        /* Animaciones */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        /* Responsive */
-        @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            p { font-size: 1.1rem; }
-            .countdown-item { padding: 15px; min-width: 70px; }
-            .countdown-number { font-size: 2rem; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulación de Extracción de Pelotas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --accent: #4cc9f0;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --success: #4caf50;
+      --danger: #f44336;
+      --card-bg: #ffffff;
+      --header-bg: linear-gradient(135deg, #4361ee, #3a0ca3);
+      --footer-bg: #212529;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Menú horizontal */
+    .menu-horizontal {
+      background: var(--header-bg);
+      padding: 15px 0;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .menu-horizontal ul {
+      display: flex;
+      list-style: none;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      flex-wrap: wrap;
+    }
+
+    .menu-horizontal li {
+      margin: 0 5px;
+    }
+
+    .menu-horizontal a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      transition: var(--transition);
+      font-weight: 500;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .menu-horizontal a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .menu-horizontal a.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Encabezado */
+    header {
+      background: var(--header-bg);
+      color: white;
+      padding: 2rem 0;
+      border-radius: 0 0 20px 20px;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .header-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .header-content h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-content p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .urn {
+      width: 120px;
+      height: 150px;
+      background: linear-gradient(to bottom, #8B4513, #A0522D);
+      margin: 0 auto;
+      border-radius: 10px 10px 60px 60px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .urn-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      background: #5D4037;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .urn-content {
+      position: absolute;
+      top: 30px;
+      left: 10px;
+      right: 10px;
+      bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-content: center;
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .ball {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      animation: float 3s infinite ease-in-out;
+    }
+
+    .ball:nth-child(1) { 
+      background: #FF5252; 
+      animation-delay: 0s; 
+    }
+    .ball:nth-child(2) { 
+      background: #FF9800; 
+      animation-delay: 0.5s; 
+    }
+    .ball:nth-child(3) { 
+      background: #4CAF50; 
+      animation-delay: 1s; 
+    }
+    .ball:nth-child(4) { 
+      background: #2196F3; 
+      animation-delay: 1.5s; 
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Contenido principal */
+    .content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (min-width: 992px) {
+      .content {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .simulation-section, .results-section {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 i {
+      font-size: 1.5rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+    }
+
+    .btn i {
+      font-size: 1.2rem;
+    }
+
+    .simulation-container {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .drawn-balls {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .drawn-ball {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.8rem;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      position: relative;
+      animation: appear 0.5s ease-out;
+    }
+
+    @keyframes appear {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .drawn-ball::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), transparent 70%);
+      z-index: 1;
+    }
+
+    .sum-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      margin-top: 10px;
+    }
+
+    .sum-value {
+      font-weight: bold;
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+
+    /* Resultados */
+    .results-container {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+
+    .probability-bar {
+      height: 20px;
+      background: #e9ecef;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .probability-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 10px;
+      transition: width 1s ease;
+    }
+
+    .chart-container {
+      height: 300px;
+      margin-top: 20px;
+    }
+
+    /* Teoría */
+    .theory-section {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 3rem;
+    }
+
+    .theory-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .theory-content {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .theory-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .theory-card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theory-card ul {
+      padding-left: 20px;
+      margin-top: 15px;
+    }
+
+    .theory-card li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    /* Pie de página */
+    footer {
+      background: var(--footer-bg);
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      border-radius: 15px 15px 0 0;
+      margin-top: 2rem;
+    }
+
+    footer p {
+      margin-bottom: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu-horizontal ul {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .menu-horizontal li {
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
+      }
+      
+      .header-content h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <i class="fas fa-tools"></i>
+  <!-- Menú horizontal -->
+  <nav class="menu-horizontal">
+    <ul>
+      <li><a href="../index.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+      <li><a href="../conceptos_basicos/conceptos_basicos.html"><i class="fas fa-brain"></i> Conceptos básicos</a></li>
+      <li><a href="../calculadoras/calculadoras.html"><i class="fas fa-calculator"></i> Calculadoras</a></li>
+      <li><a href="../conceptos_basicos/conceptos_basicos.html"><i class="fas fa-lightbulb"></i> Ejemplos prácticos</a></li>
+      <li><a href="../simulaciones/simulaciones.html"><i class="fas fa-dice"></i> Simulaciones</a></li>
+      <li><a href="../recursos/recursos.html"><i class="fas fa-book"></i> Recursos</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <h1>Simulación de Extracción de Pelotas</h1>
+        <p>Experimento de probabilidad: Suma de dos pelotas extraídas al azar</p>
+        
+        <div class="urn">
+          <div class="urn-top"></div>
+          <div class="urn-content">
+            <div class="ball">1</div>
+            <div class="ball">2</div>
+            <div class="ball">3</div>
+            <div class="ball">4</div>
+          </div>
         </div>
-        <h1>¡Estamos trabajando en algo increíble!</h1>
-        <p>Nuestro sitio web está actualmente en construcción. Estamos trabajando duro para brindarte la mejor experiencia. ¡Vuelve pronto para descubrir nuestro nuevo sitio!</p>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="simulation-section">
+        <h2><i class="fas fa-vial"></i> Simulación</h2>
         
-        <div class="countdown">
-            <div class="countdown-item">
-                <div class="countdown-number" id="days">00</div>
-                <div class="countdown-label">Días</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="hours">00</div>
-                <div class="countdown-label">Horas</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="minutes">00</div>
-                <div class="countdown-label">Minutos</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="seconds">00</div>
-                <div class="countdown-label">Segundos</div>
-            </div>
+        <div class="btn-group">
+          <button id="simulate-btn" class="btn"><i class="fas fa-play"></i> Realizar extracción</button>
+          <button id="reset-btn" class="btn"><i class="fas fa-redo"></i> Reiniciar</button>
+          <button id="multi-btn" class="btn"><i class="fas fa-bolt"></i> 10 extracciones</button>
         </div>
         
-        <div class="social-icons">
-                        <a href="https://www.facebook.com/afav23"><i class="fab fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/afav_oficial/"><i class="fab fa-instagram"></i></a>
-                        <a href="https://github.com/2100679b"><i class="fab fa-github"></i></a>
-                    </div>
-        
-        <a href="mailto:contacto@tusitio.com" class="contact-btn">Contáctanos</a>
-        
-        <div class="construction-elements">
-            <div class="tool">
-                <i class="fas fa-hammer"></i>
-            </div>
-            <div class="tool">
-                <i class="fas fa-wrench"></i>
-            </div>
-            <div class="tool">
-                <i class="fas fa-hard-hat"></i>
-            </div>
+        <div class="simulation-container">
+          <p id="instruction">Presiona "Realizar extracción" para comenzar</p>
+          
+          <div class="drawn-balls" id="drawn-balls">
+            <!-- Las pelotas extraídas aparecerán aquí -->
+          </div>
+          
+          <div class="sum-container">
+            <span>Suma Z =</span>
+            <div class="sum-value" id="sum-value">?</div>
+          </div>
         </div>
+      </section>
+      
+      <section class="results-section">
+        <h2><i class="fas fa-chart-bar"></i> Resultados</h2>
+        
+        <div class="results-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Suma (Z)</th>
+                <th>Combinaciones</th>
+                <th>Probabilidad Teórica</th>
+                <th>Probabilidad Experimental</th>
+              </tr>
+            </thead>
+            <tbody id="results-body">
+              <!-- Los resultados se llenarán con JavaScript -->
+            </tbody>
+          </table>
+          
+          <div class="chart-container">
+            <canvas id="probability-chart"></canvas>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <script>
-        // Fecha objetivo para el lanzamiento (ajusta según tus necesidades)
-        const launchDate = new Date("2023-12-31T00:00:00").getTime();
+    <section class="theory-section">
+      <h2><i class="fas fa-book"></i> Teoría del Experimento</h2>
+      
+      <div class="theory-content">
+        <div class="theory-card">
+          <h3><i class="fas fa-calculator"></i> Explicación Matemática</h3>
+          <p>En este experimento, tenemos una urna con 4 pelotas numeradas del 1 al 4. Extraemos dos pelotas al azar sin reemplazo.</p>
+          
+          <p>El espacio muestral consta de todas las combinaciones posibles de dos pelotas:</p>
+          <ul>
+            <li>Número de resultados posibles: C(4,2) = 6</li>
+            <li>Combinaciones: (1,2), (1,3), (1,4), (2,3), (2,4), (3,4)</li>
+          </ul>
+          
+          <p>Definimos la variable aleatoria Z como la suma de los números de las dos pelotas extraídas.</p>
+          
+          <p>La distribución de probabilidad de Z es:</p>
+          <ul>
+            <li>Z = 3: probabilidad 1/6</li>
+            <li>Z = 4: probabilidad 1/6</li>
+            <li>Z = 5: probabilidad 2/6</li>
+            <li>Z = 6: probabilidad 1/6</li>
+            <li>Z = 7: probabilidad 1/6</li>
+          </ul>
+        </div>
         
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = launchDate - now;
-            
-            // Cálculos de tiempo
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            // Actualizar el HTML
-            document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
-            document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
-            
-            // Si la cuenta regresiva termina
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                document.querySelector(".countdown").innerHTML = "<div class='countdown-item'><div class='countdown-number'>¡Ya estamos en línea!</div></div>";
+        <div class="theory-card">
+          <h3><i class="fas fa-lightbulb"></i> Interpretación de Resultados</h3>
+          <p>La simulación nos permite observar cómo las frecuencias relativas se acercan a las probabilidades teóricas a medida que aumentamos el número de ensayos.</p>
+          
+          <p>Conceptos clave:</p>
+          <ul>
+            <li><strong>Probabilidad teórica:</strong> Valor esperado basado en el modelo matemático</li>
+            <li><strong>Probabilidad experimental:</strong> Frecuencia relativa observada en la simulación</li>
+            <li><strong>Ley de los grandes números:</strong> A mayor número de ensayos, la probabilidad experimental se acerca a la teórica</li>
+          </ul>
+          
+          <p>En la gráfica podemos observar:</p>
+          <ul>
+            <li>La suma más probable es 5 (probabilidad 2/6 ≈ 0.333)</li>
+            <li>Las sumas 3, 4, 6 y 7 tienen la misma probabilidad (1/6 ≈ 0.167)</li>
+            <li>La suma mínima es 3, la máxima es 7</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Simulación de Probabilidad y Estadística</p>
+      <p>© 2023 - Distribución de Bernoulli</p>
+    </footer>
+  </div>
+
+  <script>
+    // Datos iniciales
+    const balls = [1, 2, 3, 4];
+    const combinations = [
+      { balls: [1, 2], sum: 3 },
+      { balls: [1, 3], sum: 4 },
+      { balls: [1, 4], sum: 5 },
+      { balls: [2, 3], sum: 5 },
+      { balls: [2, 4], sum: 6 },
+      { balls: [3, 4], sum: 7 }
+    ];
+    
+    // Probabilidades teóricas
+    const theoreticalProb = {
+      3: 1/6,
+      4: 1/6,
+      5: 2/6,
+      6: 1/6,
+      7: 1/6
+    };
+    
+    // Variables de estado
+    let results = {
+      3: { theoretical: theoreticalProb[3], experimental: 0, count: 0, combinations: ['(1,2)'] },
+      4: { theoretical: theoreticalProb[4], experimental: 0, count: 0, combinations: ['(1,3)'] },
+      5: { theoretical: theoreticalProb[5], experimental: 0, count: 0, combinations: ['(1,4)', '(2,3)'] },
+      6: { theoretical: theoreticalProb[6], experimental: 0, count: 0, combinations: ['(2,4)'] },
+      7: { theoretical: theoreticalProb[7], experimental: 0, count: 0, combinations: ['(3,4)'] }
+    };
+    
+    let totalTrials = 0;
+    
+    // Elementos DOM
+    const simulateBtn = document.getElementById('simulate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const multiBtn = document.getElementById('multi-btn');
+    const drawnBalls = document.getElementById('drawn-balls');
+    const sumValue = document.getElementById('sum-value');
+    const resultsBody = document.getElementById('results-body');
+    const instruction = document.getElementById('instruction');
+    
+    // Colores para las pelotas
+    const ballColors = {
+      1: '#FF5252',
+      2: '#FF9800',
+      3: '#4CAF50',
+      4: '#2196F3'
+    };
+    
+    // Inicializar gráfico
+    const ctx = document.getElementById('probability-chart').getContext('2d');
+    let probabilityChart;
+    
+    function initChart() {
+      probabilityChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Z=3', 'Z=4', 'Z=5', 'Z=6', 'Z=7'],
+          datasets: [
+            {
+              label: 'Probabilidad Teórica',
+              data: Object.values(theoreticalProb),
+              backgroundColor: 'rgba(67, 97, 238, 0.7)',
+              borderColor: 'rgba(67, 97, 238, 1)',
+              borderWidth: 1
+            },
+            {
+              label: 'Probabilidad Experimental',
+              data: [0, 0, 0, 0, 0],
+              backgroundColor: 'rgba(76, 201, 240, 0.7)',
+              borderColor: 'rgba(76, 201, 240, 1)',
+              borderWidth: 1
             }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 0.4,
+              title: {
+                display: true,
+                text: 'Probabilidad'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `${context.dataset.label}: ${context.parsed.y.toFixed(4)}`;
+                }
+              }
+            }
+          }
         }
-        
-        // Actualizar cada segundo
-        const countdownInterval = setInterval(updateCountdown, 1000);
-        updateCountdown(); // Llamada inicial
-    </script>
+      });
+    }
+    
+    // Función para realizar una extracción
+    function simulateDraw() {
+      // Seleccionar dos pelotas al azar sin reemplazo
+      const shuffled = [...balls].sort(() => 0.5 - Math.random());
+      const drawn = shuffled.slice(0, 2);
+      const sum = drawn[0] + drawn[1];
+      
+      // Actualizar resultados
+      totalTrials++;
+      results[sum].count++;
+      results[sum].experimental = results[sum].count / totalTrials;
+      
+      // Actualizar visualización
+      updateDrawnBalls(drawn, sum);
+      updateResultsTable();
+      updateChart();
+    }
+    
+    // Función para actualizar las pelotas extraídas
+    function updateDrawnBalls(drawn, sum) {
+      drawnBalls.innerHTML = '';
+      
+      drawn.forEach(ball => {
+        const ballElement = document.createElement('div');
+        ballElement.className = 'drawn-ball';
+        ballElement.textContent = ball;
+        ballElement.style.background = ballColors[ball];
+        drawnBalls.appendChild(ballElement);
+      });
+      
+      sumValue.textContent = sum;
+      instruction.textContent = `Extracción #${totalTrials}`;
+    }
+    
+    // Función para actualizar la tabla de resultados
+    function updateResultsTable() {
+      let html = '';
+      
+      for (const [sum, data] of Object.entries(results)) {
+        html += `
+          <tr>
+            <td>${sum}</td>
+            <td>${data.combinations.join(', ')}</td>
+            <td>${data.theoretical.toFixed(4)}</td>
+            <td>${data.experimental.toFixed(4)}</td>
+          </tr>
+        `;
+      }
+      
+      resultsBody.innerHTML = html;
+    }
+    
+    // Función para actualizar el gráfico
+    function updateChart() {
+      probabilityChart.data.datasets[1].data = Object.values(results).map(r => r.experimental);
+      probabilityChart.update();
+    }
+    
+    // Función para reiniciar la simulación
+    function resetSimulation() {
+      totalTrials = 0;
+      
+      for (const key in results) {
+        results[key].count = 0;
+        results[key].experimental = 0;
+      }
+      
+      drawnBalls.innerHTML = '';
+      sumValue.textContent = '?';
+      instruction.textContent = 'Presiona "Realizar extracción" para comenzar';
+      
+      updateResultsTable();
+      updateChart();
+    }
+    
+    // Función para realizar múltiples extracciones
+    function multiSimulate() {
+      for (let i = 0; i < 10; i++) {
+        simulateDraw();
+      }
+    }
+    
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      initChart();
+      updateResultsTable();
+    });
+    
+    simulateBtn.addEventListener('click', simulateDraw);
+    resetBtn.addEventListener('click', resetSimulation);
+    multiBtn.addEventListener('click', multiSimulate);
+  </script>
 </body>
 </html>
