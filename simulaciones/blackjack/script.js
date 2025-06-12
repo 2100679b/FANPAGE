@@ -132,6 +132,21 @@ function quedarse() {
   }
 }
 
+// script.js
+
+document.addEventListener('DOMContentLoaded', () => {
+  const salirBtn = document.getElementById('salir');
+  
+  salirBtn.addEventListener('click', (e) => {
+    e.preventDefault(); // Evitar que el enlace navegue por defecto
+    if (confirm('¿Estás seguro de que quieres salir?')) {
+      window.close(); // Intentar cerrar la ventana
+      // Alternativa: redirigir a otra página si window.close() no funciona
+      // window.location.href = 'https://www.ejemplo.com';
+    }
+  });
+});
+
 // Eventos de los botones
 document.getElementById('pedir').addEventListener('click', pedirCarta);
 document.getElementById('quedarse').addEventListener('click', quedarse);
