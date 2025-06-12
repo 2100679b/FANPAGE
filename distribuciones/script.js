@@ -1,42 +1,31 @@
-// Efectos de interacción para las tarjetas
+// script.js
 document.addEventListener('DOMContentLoaded', function() {
-  const cards = document.querySelectorAll('.card');
+  // Animación para las tarjetas de distribución
+  const distributionCards = document.querySelectorAll('.distribution-card');
   
-  cards.forEach(card => {
-    card.addEventListener('click', function() {
-      // Efecto visual al hacer clic
-      this.style.transform = 'scale(0.98)';
-      setTimeout(() => {
-        this.style.transform = '';
-      }, 150);
-      
-      // Simular navegación
-      const cardId = this.id;
-      let title;
-      
-      switch(cardId) {
-        case 'uniforme':
-          title = 'Distribución Uniforme Discreta';
-          break;
-        case 'bernoulli':
-          title = 'Distribución de Bernoulli';
-          break;
-        case 'binomial':
-          title = 'Distribución Binomial';
-          break;
-      }
-      
-      document.querySelector('header h1').textContent = `Cargando ${title}...`;
-      
-      setTimeout(() => {
-        document.querySelector('header h1').textContent = '📊 Simulaciones de Probabilidad y Estadística';
-        alert(`Se cargaría la simulación de ${title}`);
-      }, 1000);
+  distributionCards.forEach((card, index) => {
+    setTimeout(() => {
+      card.style.transform = 'translateY(0)';
+      card.style.opacity = '1';
+    }, 200 * index);
+  });
+  
+  // Efecto hover para los enlaces de distribución
+  const distributionLinks = document.querySelectorAll('.distribution-link');
+  
+  distributionLinks.forEach(link => {
+    link.addEventListener('mouseenter', function() {
+      this.querySelector('.fa-chevron-right').style.transform = 'translateX(5px)';
+    });
+    
+    link.addEventListener('mouseleave', function() {
+      this.querySelector('.fa-chevron-right').style.transform = 'translateX(0)';
     });
   });
   
-  // Efecto de carga para las barras de progreso
+  // Animación para la barra de progreso
   const progressBars = document.querySelectorAll('.progress');
+  
   progressBars.forEach(bar => {
     const width = bar.style.width;
     bar.style.width = '0';
@@ -47,18 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 500);
   });
   
-  // Animación para las características
-  const features = document.querySelectorAll('.feature');
-  features.forEach((feature, index) => {
-    setTimeout(() => {
-      feature.style.opacity = '0';
-      feature.style.transform = 'translateY(20px)';
-      feature.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      
-      setTimeout(() => {
-        feature.style.opacity = '1';
-        feature.style.transform = 'translateY(0)';
-      }, 100);
-    }, index * 200);
-  });
+  // Actualizar año en el copyright
+  const yearElement = document.querySelector('.copyright p');
+  if (yearElement) {
+    const currentYear = new Date().getFullYear();
+    yearElement.innerHTML = yearElement.innerHTML.replace('2023', currentYear);
+  }
 });

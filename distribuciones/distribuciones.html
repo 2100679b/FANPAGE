@@ -5,37 +5,162 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Distribuciones Discretas</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <!-- Menú horizontal -->
-  <nav class="menu-horizontal">
-    <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="secciones/conceptos.html">Conceptos básicos</a></li>
-      <li><a href="secciones/calculadoras.html">Calculadoras</a></li>
-      <li><a href="secciones/ejemplos.html">Ejemplos prácticos</a></li>
-      <li><a href="secciones/simulaciones.html">Simulaciones</a></li>
-      <li><a href="secciones/recursos.html">Recursos</a></li>
-    </ul>
-  </nav>
+  <!-- Encabezado con título y menú horizontal -->
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-chart-bar"></i>
+        <h1>Distribuciones Discretas</h1>
+      </div>
+      <p class="subtitle">Explora los conceptos fundamentales de probabilidad</p>
+    </div>
+    
+    <nav class="menu-horizontal">
+      <ul>
+        <li><a href="index.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a href="secciones/conceptos.html"><i class="fas fa-brain"></i> Conceptos básicos</a></li>
+        <li><a href="secciones/calculadoras.html"><i class="fas fa-calculator"></i> Calculadoras</a></li>
+        <li><a href="secciones/ejemplos.html"><i class="fas fa-lightbulb"></i> Ejemplos prácticos</a></li>
+        <li><a href="secciones/simulaciones.html"><i class="fas fa-dice"></i> Simulaciones</a></li>
+        <li><a href="secciones/recursos.html"><i class="fas fa-book"></i> Recursos</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <!-- Contenedor principal con menú lateral y contenido -->
   <div class="contenedor">
     <!-- Menú lateral -->
     <aside class="menu-lateral">
-      <h3>Distribuciones</h3>
+      <div class="menu-header">
+        <i class="fas fa-project-diagram"></i>
+        <h3>Distribuciones</h3>
+      </div>
       <ul>
-        <li><a href="distribuciones/uniforme.html">Distribución uniforme discreta</a></li>
-        <li><a href="distribuciones/bernoulli.html">Distribución de Bernoulli</a></li>
-        <li><a href="distribuciones/binomial.html">Distribución binomial</a></li>
+        <li>
+          <a href="distribuciones/uniforme.html" class="distribution-link">
+            <i class="fas fa-dice"></i>
+            <span>Distribución uniforme discreta</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
+        <li>
+          <a href="distribuciones/bernoulli.html" class="distribution-link">
+            <i class="fas fa-scale-balanced"></i>
+            <span>Distribución de Bernoulli</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
+        <li>
+          <a href="distribuciones/binomial.html" class="distribution-link">
+            <i class="fas fa-chart-line"></i>
+            <span>Distribución binomial</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
       </ul>
     </aside>
 
     <!-- Contenido principal -->
     <main class="contenido">
-      <h1>Bienvenido a Distribuciones Discretas</h1>
-      <p>Explora los conceptos fundamentales de las distribuciones discretas de probabilidad.</p>
+      <div class="welcome-card">
+        <div class="welcome-text">
+          <h1>Bienvenido a Distribuciones Discretas</h1>
+          <p>Explora los conceptos fundamentales de las distribuciones discretas de probabilidad con nuestras herramientas interactivas, calculadoras y ejemplos prácticos.</p>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Distribuciones</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">10+</div>
+              <div class="stat-label">Calculadoras</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">20+</div>
+              <div class="stat-label">Ejemplos</div>
+            </div>
+          </div>
+        </div>
+        <div class="welcome-image">
+          <div class="formula-box">
+            P(X=k) = <div class="fraction"><span>1</span><span>n</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="distribution-cards">
+        <div class="distribution-card" data-distribution="uniforme">
+          <div class="card-icon">
+            <i class="fas fa-dice"></i>
+          </div>
+          <h3>Distribución Uniforme Discreta</h3>
+          <p>Todos los resultados tienen la misma probabilidad de ocurrir.</p>
+          <div class="progress-bar">
+            <div class="progress" style="width: 100%"></div>
+          </div>
+          <a href="distribuciones/uniforme.html" class="btn">Explorar <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="distribution-card" data-distribution="bernoulli">
+          <div class="card-icon">
+            <i class="fas fa-scale-balanced"></i>
+          </div>
+          <h3>Distribución de Bernoulli</h3>
+          <p>Modela experimentos con dos resultados posibles (éxito/fracaso).</p>
+          <div class="progress-bar">
+            <div class="progress" style="width: 85%"></div>
+          </div>
+          <a href="distribuciones/bernoulli.html" class="btn">Explorar <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="distribution-card" data-distribution="binomial">
+          <div class="card-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Distribución Binomial</h3>
+          <p>Número de éxitos en una secuencia de ensayos independientes.</p>
+          <div class="progress-bar">
+            <div class="progress" style="width: 75%"></div>
+          </div>
+          <a href="distribuciones/binomial.html" class="btn">Explorar <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
     </main>
   </div>
+
+  <!-- Pie de página -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Distribuciones Discretas</h4>
+        <p>Recursos educativos para estudiantes de probabilidad y estadística.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Contacto</h4>
+        <p><i class="fas fa-envelope"></i> contacto@distribuciones.com</p>
+        <p><i class="fas fa-phone"></i> +52 443 123 4567</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Síguenos</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2023 Distribuciones Discretas. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
