@@ -29,6 +29,7 @@ function repartirCarta(mano) {
 function calcularTotal(mano) {
   let total = 0;
   let ases = 0;
+  
   for (let carta of mano) {
     if (carta.rango === 'A') {
       ases++;
@@ -38,6 +39,8 @@ function calcularTotal(mano) {
       total += parseInt(carta.rango);
     }
   }
+  
+  // Calcular valor de los ases
   for (let i = 0; i < ases; i++) {
     if (total + 11 <= 21) {
       total += 11;
@@ -45,6 +48,7 @@ function calcularTotal(mano) {
       total += 1;
     }
   }
+  
   return total;
 }
 
@@ -56,74 +60,156 @@ let juegoActivo = true;
 // Función para mostrar las cartas
 function mostrarCartas(mano, elemento, ocultarPrimera = false) {
   elemento.innerHTML = '';
+  
   mano.forEach((carta, index) => {
+    const cartaDiv = document.createElement('div');
+    cartaDiv.classList.add('carta');
+    
     if (index === 0 && ocultarPrimera) {
-      const cartaDiv = document.createElement('div');
-      cartaDiv.classList.add('carta');
       cartaDiv.textContent = '?';
-      elemento.appendChild(cartaDiv);
+      cartaDiv.style.background = 'linear-gradient(145deg, #5a0000, #8B0000)';
+      cartaDiv.style.color = 'gold';
+      cartaDiv.style.fontSize = '40px';
     } else {
-      const cartaDiv = document.createElement('div');
-      cartaDiv.classList.add('carta');
-      cartaDiv.textContent = `${carta.rango}${carta.palo}`;
-      elemento.appendChild(cartaDiv);
+      cartaDiv.textContent = carta.rango;
+      cartaDiv.setAttribute('data-suit', carta.palo);
+      
+      if (carta.palo === '♥' || carta.palo === '♦') {
+        cartaDiv.classList.add('rojo');
+      } else {
+        cartaDiv.classList.add('negro');
+      }
     }
+    
+    elemento.appendChild(cartaDiv);
   });
+}
+
+// Función para actualizar los totales
+function actualizarTotales() {
+  const totalJugador = calcularTotal(manoJugador);
+  const totalCrupier = calcularTotal(manoCrupier);
+  
+  document.getElementById('jugador-total').textContent = totalJugador;
+  
+  if (juegoActivo) {
+    // Ocultar total real del crupier durante el juego
+    document.getElementById('crupier-total').textContent = '?';
+  } else {
+    document.getElementById('crupier-total').textContent = totalCrupier;
+  }
 }
 
 // Función para iniciar el juego
 function iniciarJuego() {
+  // Reiniciar baraja
   baraja = [];
   for (let palo of palos) {
     for (let rango of rangos) {
       baraja.push({ palo, rango });
     }
   }
+  
   barajar(baraja);
+  
+  // Reiniciar manos
   manoJugador = [];
   manoCrupier = [];
+  
+  // Repartir cartas iniciales
   repartirCarta(manoJugador);
   repartirCarta(manoCrupier);
   repartirCarta(manoJugador);
   repartirCarta(manoCrupier);
+  
+  // Mostrar cartas
   mostrarCartas(manoJugador, document.getElementById('jugador-cartas'));
   mostrarCartas(manoCrupier, document.getElementById('crupier-cartas'), true);
+  
+  // Actualizar totales
+  actualizarTotales();
+  
+  // Estado del juego
   document.getElementById('mensaje').textContent = 'Tu turno';
   juegoActivo = true;
+  
+  // Habilitar botones
   document.getElementById('pedir').disabled = false;
   document.getElementById('quedarse').disabled = false;
+  
+  // Verificar blackjack natural
+  const totalJugador = calcularTotal(manoJugador);
+  if (totalJugador === 21) {
+    setTimeout(() => {
+      document.getElementById('mensaje').textContent = '¡Blackjack Natural!';
+      juegoActivo = false;
+      document.getElementById('pedir').disabled = true;
+      document.getElementById('quedarse').disabled = true;
+    }, 500);
+  }
 }
 
 // Función para pedir carta
 function pedirCarta() {
   if (!juegoActivo) return;
+  
   repartirCarta(manoJugador);
   mostrarCartas(manoJugador, document.getElementById('jugador-cartas'));
+  actualizarTotales();
+  
   const totalJugador = calcularTotal(manoJugador);
+  
   if (totalJugador > 21) {
     document.getElementById('mensaje').textContent = 'Te pasaste de 21. Perdiste.';
     juegoActivo = false;
     document.getElementById('pedir').disabled = true;
     document.getElementById('quedarse').disabled = true;
+  } else if (totalJugador === 21) {
+    document.getElementById('mensaje').textContent = '¡21!';
+    setTimeout(quedarse, 1000);
   }
 }
 
 // Función para quedarse
 function quedarse() {
   if (!juegoActivo) return;
+  
   juegoActivo = false;
   document.getElementById('pedir').disabled = true;
   document.getElementById('quedarse').disabled = true;
-  // Turno del crupier
+  
+  // Mostrar cartas del crupier
   mostrarCartas(manoCrupier, document.getElementById('crupier-cartas'), false);
+  
+  // Turno del crupier
   let totalCrupier = calcularTotal(manoCrupier);
-  while (totalCrupier < 17) {
-    repartirCarta(manoCrupier);
-    mostrarCartas(manoCrupier, document.getElementById('crupier-cartas'), false);
-    totalCrupier = calcularTotal(manoCrupier);
-  }
+  
+  const jugarCrupier = () => {
+    if (totalCrupier < 17) {
+      repartirCarta(manoCrupier);
+      mostrarCartas(manoCrupier, document.getElementById('crupier-cartas'), false);
+      totalCrupier = calcularTotal(manoCrupier);
+      actualizarTotales();
+      
+      setTimeout(jugarCrupier, 1000);
+    } else {
+      determinarGanador();
+    }
+  };
+  
+  jugarCrupier();
+}
+
+// Función para determinar el ganador
+function determinarGanador() {
   const totalJugador = calcularTotal(manoJugador);
-  if (totalCrupier > 21 || totalJugador > totalCrupier) {
+  const totalCrupier = calcularTotal(manoCrupier);
+  
+  actualizarTotales();
+  
+  if (totalCrupier > 21) {
+    document.getElementById('mensaje').textContent = '¡Ganaste! El crupier se pasó.';
+  } else if (totalJugador > totalCrupier) {
     document.getElementById('mensaje').textContent = '¡Ganaste!';
   } else if (totalJugador < totalCrupier) {
     document.getElementById('mensaje').textContent = 'Perdiste.';
@@ -132,24 +218,11 @@ function quedarse() {
   }
 }
 
-// script.js
-
+// Event listeners
 document.addEventListener('DOMContentLoaded', () => {
-  const salirBtn = document.getElementById('salir');
+  document.getElementById('pedir').addEventListener('click', pedirCarta);
+  document.getElementById('quedarse').addEventListener('click', quedarse);
+  document.getElementById('nuevo-juego').addEventListener('click', iniciarJuego);
   
-  salirBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // Evitar que el enlace navegue por defecto
-    if (confirm('¿Estás seguro de que quieres salir?')) {
-      window.close(); // Intentar cerrar la ventana
-      // Alternativa: redirigir a otra página si window.close() no funciona
-      // window.location.href = 'https://www.ejemplo.com';
-    }
-  });
+  iniciarJuego();
 });
-
-// Eventos de los botones
-document.getElementById('pedir').addEventListener('click', pedirCarta);
-document.getElementById('quedarse').addEventListener('click', quedarse);
-
-// Iniciar el juego al cargar la página
-iniciarJuego();

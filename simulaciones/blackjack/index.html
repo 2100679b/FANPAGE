@@ -2,24 +2,45 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Simulaciones de Probabilidad</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Blackjack</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
     <h1>🎰 Simulaciones de Probabilidad y Estadística 🎲</h1>
     <nav id="menu-juegos">
       <ul>
-        <li><a href="./ruleta/index.html">🎰 Ruleta</a></li>
-        <li><a href="./dados/index.html">🎲 Dados</a></li>
-        <li><a href="./blackjack/index.html">🃏 Blackjack</a></li>
-        <li><a href="#" id="salir">🚪 Salir</a></li>
+        <li><a href="../ruleta/index.html">🎰 Ruleta</a></li>
+        <li><a href="../dados/index.html">🎲 Dados</a></li>
+        <li><a href="../index.html">🚪 Salir</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <p>Selecciona una simulación para comenzar.</p>
+    <h2>🃏 Blackjack</h2>
+    
+    <div class="tablero">
+      <div class="mano" id="crupier">
+        <h3>Crupier <span id="crupier-total">?</span></h3>
+        <div id="crupier-cartas" class="cartas"></div>
+      </div>
+      
+      <div class="separador"></div>
+      
+      <div class="mano" id="jugador">
+        <h3>Jugador <span id="jugador-total">0</span></h3>
+        <div id="jugador-cartas" class="cartas"></div>
+      </div>
+    </div>
+    
+    <div id="controles">
+      <button id="pedir">Pedir carta</button>
+      <button id="quedarse">Quedarse</button>
+      <button id="nuevo-juego">Nuevo juego</button>
+    </div>
+    
+    <div id="mensaje">Tu turno</div>
   </main>
 
   <footer>
