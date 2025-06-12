@@ -6,8 +6,6 @@ const numerosRuleta = [
 
 // Colores según las reglas oficiales de la ruleta europea
 const colores = {};
-
-// Asignar colores correctamente
 numerosRuleta.forEach(num => {
   if (num === 0) {
     colores[num] = 'verde';
@@ -24,6 +22,9 @@ let fichas = 1000;
 let apuestaActual = 0;
 let tipoApuestaActual = '';
 let fichasApostadas = 0;
+
+// Obtener referencia al elemento de audio
+const sonidoRuleta = document.getElementById('sonidoRuleta');
 
 // Inicializa ruleta visual
 function inicializarRuleta() {
@@ -98,6 +99,9 @@ function girarRuleta() {
   // Mostrar mensaje de giro
   document.getElementById("resultado").innerHTML = "🌀 La ruleta está girando...";
   
+  // Reproducir sonido de la ruleta
+  sonidoRuleta.play();
+  
   // Animar
   const ruletaDiv = document.getElementById("ruleta");
   ruletaDiv.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
@@ -105,6 +109,10 @@ function girarRuleta() {
   
   // Mostrar resultado después de la animación
   setTimeout(() => {
+    // Detener el sonido
+    sonidoRuleta.pause();
+    sonidoRuleta.currentTime = 0;
+    
     // Verificar el resultado
     const gano = (colorGanador === tipoApuestaActual);
     let ganancia = 0;
@@ -175,7 +183,7 @@ function girarRuleta() {
       }, 500);
     }
     
-  }, 4200);
+  }, 4200); // Ajustado para coincidir con la animación (4s) + un pequeño retraso
 }
 
 // Inicializar
