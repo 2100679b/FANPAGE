@@ -5,22 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulación de Extracción de Pelotas</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   <style>
     :root {
-      --primary: #4361ee;
-      --secondary: #3f37c9;
-      --accent: #4cc9f0;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --gray: #6c757d;
-      --success: #4caf50;
-      --danger: #f44336;
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --accent: #f093fb;
+      --light: #f8fafc;
+      --dark: #1a202c;
+      --gray: #718096;
+      --success: #48bb78;
+      --danger: #f56565;
+      --warning: #ed8936;
       --card-bg: #ffffff;
-      --header-bg: linear-gradient(135deg, #4361ee, #3a0ca3);
-      --footer-bg: #212529;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      --transition: all 0.3s ease;
+      --header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --footer-bg: #2d3748;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.15);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --border-radius: 20px;
     }
 
     * {
@@ -30,23 +33,25 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f2f5;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
       color: var(--dark);
       line-height: 1.6;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 20px;
     }
 
-    /* Menú horizontal */
+    /* Menú horizontal mejorado */
     .menu-horizontal {
-      background: var(--header-bg);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
       padding: 15px 0;
-      box-shadow: var(--shadow);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -60,72 +65,133 @@
       margin: 0 auto;
       padding: 0 20px;
       flex-wrap: wrap;
+      gap: 10px;
     }
 
     .menu-horizontal li {
-      margin: 0 5px;
+      margin: 0;
     }
 
     .menu-horizontal a {
-      color: white;
+      color: var(--dark);
       text-decoration: none;
-      padding: 10px 15px;
-      border-radius: 30px;
+      padding: 12px 20px;
+      border-radius: 50px;
       display: flex;
       align-items: center;
       transition: var(--transition);
-      font-weight: 500;
+      font-weight: 600;
       gap: 8px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      position: relative;
+      overflow: hidden;
     }
 
-    .menu-horizontal a:hover {
-      background: rgba(255, 255, 255, 0.2);
+    .menu-horizontal a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      transition: var(--transition);
+      z-index: -1;
     }
 
+    .menu-horizontal a:hover::before,
+    .menu-horizontal a.active::before {
+      left: 0;
+    }
+
+    .menu-horizontal a:hover,
     .menu-horizontal a.active {
-      background: white;
-      color: var(--primary);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
     }
 
-    /* Encabezado */
+    /* Encabezado mejorado */
+    .main-content {
+      background: var(--light);
+      margin: 20px 0;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
     header {
       background: var(--header-bg);
       color: white;
-      padding: 2rem 0;
-      border-radius: 0 0 20px 20px;
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow);
+      padding: 3rem 0;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
     }
 
     .header-content {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 0 20px;
+      position: relative;
+      z-index: 1;
     }
 
     .header-content h1 {
-      font-size: 2.2rem;
-      margin-bottom: 0.5rem;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff, #f0f0f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .header-content p {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       opacity: 0.9;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    /* Urna mejorada */
+    .urn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
     }
 
     .urn {
-      width: 120px;
-      height: 150px;
-      background: linear-gradient(to bottom, #8B4513, #A0522D);
-      margin: 0 auto;
-      border-radius: 10px 10px 60px 60px;
+      width: 140px;
+      height: 180px;
+      background: linear-gradient(145deg, #8B4513, #A0522D, #CD853F);
+      border-radius: 15px 15px 70px 70px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transform: perspective(500px) rotateX(5deg);
+    }
+
+    .urn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      width: 20%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      z-index: 2;
     }
 
     .urn-top {
@@ -133,59 +199,73 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 30px;
-      background: #5D4037;
-      border-radius: 10px 10px 0 0;
+      height: 35px;
+      background: linear-gradient(145deg, #5D4037, #6D4C41);
+      border-radius: 15px 15px 0 0;
+      box-shadow: inset 0 -5px 10px rgba(0,0,0,0.3);
     }
 
     .urn-content {
       position: absolute;
-      top: 30px;
-      left: 10px;
-      right: 10px;
-      bottom: 30px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      top: 40px;
+      left: 15px;
+      right: 15px;
+      bottom: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding: 15px;
       align-content: center;
-      gap: 10px;
-      padding: 10px;
     }
 
     .ball {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
-      background: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
+      font-size: 1.2rem;
       color: white;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-      animation: float 3s infinite ease-in-out;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      position: relative;
+      animation: float 4s infinite ease-in-out;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .ball::before {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 25%;
+      width: 25%;
+      height: 25%;
+      background: radial-gradient(circle, rgba(255,255,255,0.8), transparent 70%);
+      border-radius: 50%;
+      z-index: 1;
     }
 
     .ball:nth-child(1) { 
-      background: #FF5252; 
+      background: linear-gradient(145deg, #FF5252, #F44336);
       animation-delay: 0s; 
     }
     .ball:nth-child(2) { 
-      background: #FF9800; 
+      background: linear-gradient(145deg, #FF9800, #F57C00);
       animation-delay: 0.5s; 
     }
     .ball:nth-child(3) { 
-      background: #4CAF50; 
+      background: linear-gradient(145deg, #4CAF50, #388E3C);
       animation-delay: 1s; 
     }
     .ball:nth-child(4) { 
-      background: #2196F3; 
+      background: linear-gradient(145deg, #2196F3, #1976D2);
       animation-delay: 1.5s; 
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.05); }
     }
 
     /* Contenido principal */
@@ -193,188 +273,283 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 2rem;
-      margin-bottom: 3rem;
+      padding: 2rem;
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1024px) {
       .content {
         grid-template-columns: 1fr 1fr;
       }
     }
 
-    .simulation-section, .results-section {
+    .section-card {
       background: var(--card-bg);
-      border-radius: 15px;
-      padding: 2rem;
+      border-radius: var(--border-radius);
+      padding: 2.5rem;
       box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .section-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
     }
 
     h2 {
-      color: var(--primary);
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
     }
 
     h2 i {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
+    /* Botones mejorados */
     .btn-group {
       display: flex;
       gap: 15px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: var(--primary);
+      gap: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
-      padding: 12px 25px;
-      border-radius: 30px;
+      padding: 15px 30px;
+      border-radius: 50px;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       transition: var(--transition);
       border: none;
       cursor: pointer;
       font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    .btn:hover::before {
+      left: 0;
     }
 
     .btn:hover {
-      background: var(--secondary);
       transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
     }
 
     .btn i {
       font-size: 1.2rem;
     }
 
+    /* Contenedor de simulación mejorado */
     .simulation-container {
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px 0;
-      min-height: 200px;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      min-height: 250px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      gap: 20px;
-    }
-
-    .drawn-balls {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .drawn-ball {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 1.8rem;
-      color: white;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      gap: 25px;
+      border: 2px solid rgba(102, 126, 234, 0.1);
       position: relative;
-      animation: appear 0.5s ease-out;
+      overflow: hidden;
     }
 
-    @keyframes appear {
-      from { transform: scale(0); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .drawn-ball::before {
-      content: "";
+    .simulation-container::before {
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.05), transparent 70%);
+      z-index: 0;
+    }
+
+    .simulation-container > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .drawn-balls {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .drawn-ball {
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), transparent 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 2rem;
+      color: white;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      position: relative;
+      animation: appear 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    @keyframes appear {
+      from { 
+        transform: scale(0) rotate(180deg); 
+        opacity: 0; 
+      }
+      to { 
+        transform: scale(1) rotate(0deg); 
+        opacity: 1; 
+      }
+    }
+
+    .drawn-ball::before {
+      content: "";
+      position: absolute;
+      top: 20%;
+      left: 25%;
+      width: 30%;
+      height: 30%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8), transparent 70%);
       z-index: 1;
     }
 
     .sum-container {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 1.5rem;
-      margin-top: 10px;
+      gap: 15px;
+      font-size: 1.6rem;
+      margin-top: 15px;
+      padding: 20px 30px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     .sum-value {
-      font-weight: bold;
-      font-size: 2.5rem;
-      color: var(--primary);
+      font-weight: 800;
+      font-size: 3rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    /* Resultados */
+    /* Tabla mejorada */
     .results-container {
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     table {
       width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-bottom: 30px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     th, td {
-      padding: 12px 15px;
+      padding: 15px 20px;
       text-align: center;
-      border-bottom: 1px solid #ddd;
+      background: white;
     }
 
     th {
-      background-color: #f8f9fa;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
       font-weight: 600;
+      font-size: 0.95rem;
     }
 
-    tr:nth-child(even) {
-      background-color: #f8f9fa;
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
     }
 
-    .probability-bar {
-      height: 20px;
-      background: #e9ecef;
-      border-radius: 10px;
-      overflow: hidden;
-      margin: 10px 0;
-    }
-
-    .probability-fill {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 10px;
-      transition: width 1s ease;
+    tr:hover td {
+      background-color: #e2e8f0;
     }
 
     .chart-container {
-      height: 300px;
-      margin-top: 20px;
+      height: 350px;
+      margin-top: 30px;
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    /* Teoría */
+    /* Sección de teoría mejorada */
     .theory-section {
+      grid-column: 1 / -1;
       background: var(--card-bg);
-      border-radius: 15px;
-      padding: 2rem;
+      border-radius: var(--border-radius);
+      padding: 3rem;
       box-shadow: var(--shadow);
-      margin-bottom: 3rem;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .theory-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
     }
 
     .theory-content {
@@ -390,60 +565,101 @@
     }
 
     .theory-card {
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      border: 2px solid rgba(102, 126, 234, 0.1);
     }
 
     .theory-card h3 {
-      color: var(--primary);
-      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
     .theory-card ul {
-      padding-left: 20px;
-      margin-top: 15px;
+      padding-left: 25px;
+      margin-top: 20px;
     }
 
     .theory-card li {
-      margin-bottom: 10px;
-      line-height: 1.6;
+      margin-bottom: 15px;
+      line-height: 1.7;
     }
 
-    /* Pie de página */
+    /* Pie de página mejorado */
     footer {
       background: var(--footer-bg);
       color: white;
       text-align: center;
-      padding: 1.5rem;
-      border-radius: 15px 15px 0 0;
-      margin-top: 2rem;
+      padding: 2rem;
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      margin-top: 3rem;
     }
 
     footer p {
       margin-bottom: 10px;
+      opacity: 0.9;
     }
 
-    /* Responsive */
+    /* Responsive mejorado */
     @media (max-width: 768px) {
       .menu-horizontal ul {
         flex-direction: column;
         align-items: center;
+        gap: 5px;
       }
       
       .menu-horizontal li {
         width: 100%;
         text-align: center;
-        margin: 5px 0;
       }
       
       .header-content h1 {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
       }
+
+      .content {
+        padding: 1.5rem;
+      }
+
+      .section-card {
+        padding: 2rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        justify-content: center;
+      }
+    }
+
+    /* Animaciones adicionales */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* Estados de instrucciones */
+    .instruction {
+      font-size: 1.2rem;
+      color: var(--gray);
+      font-weight: 500;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
@@ -451,137 +667,142 @@
   <!-- Menú horizontal -->
   <nav class="menu-horizontal">
     <ul>
-      <li><a href="../index.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+      <li><a href="../index.html"><i class="fas fa-home"></i> Inicio</a></li>
       <li><a href="../conceptos_basicos/conceptos_basicos.html"><i class="fas fa-brain"></i> Conceptos básicos</a></li>
       <li><a href="../calculadoras/calculadoras.html"><i class="fas fa-calculator"></i> Calculadoras</a></li>
       <li><a href="../conceptos_basicos/conceptos_basicos.html"><i class="fas fa-lightbulb"></i> Ejemplos prácticos</a></li>
-      <li><a href="../simulaciones/simulaciones.html"><i class="fas fa-dice"></i> Simulaciones</a></li>
       <li><a href="../recursos/recursos.html"><i class="fas fa-book"></i> Recursos</a></li>
     </ul>
   </nav>
 
   <div class="container">
-    <header>
-      <div class="header-content">
-        <h1>Simulación de Extracción de Pelotas</h1>
-        <p>Experimento de probabilidad: Suma de dos pelotas extraídas al azar</p>
-        
-        <div class="urn">
-          <div class="urn-top"></div>
-          <div class="urn-content">
-            <div class="ball">1</div>
-            <div class="ball">2</div>
-            <div class="ball">3</div>
-            <div class="ball">4</div>
+    <div class="main-content">
+      <header>
+        <div class="header-content">
+          <h1>Simulación de Extracción de Pelotas</h1>
+          <p>Experimento de probabilidad: Distribución de la suma Z de dos pelotas extraídas al azar</p>
+          
+          <div class="urn-container">
+            <div class="urn">
+              <div class="urn-top"></div>
+              <div class="urn-content">
+                <div class="ball">1</div>
+                <div class="ball">2</div>
+                <div class="ball">3</div>
+                <div class="ball">4</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <div class="content">
-      <section class="simulation-section">
-        <h2><i class="fas fa-vial"></i> Simulación</h2>
-        
-        <div class="btn-group">
-          <button id="simulate-btn" class="btn"><i class="fas fa-play"></i> Realizar extracción</button>
-          <button id="reset-btn" class="btn"><i class="fas fa-redo"></i> Reiniciar</button>
-          <button id="multi-btn" class="btn"><i class="fas fa-bolt"></i> 10 extracciones</button>
-        </div>
-        
-        <div class="simulation-container">
-          <p id="instruction">Presiona "Realizar extracción" para comenzar</p>
+      <div class="content">
+        <section class="section-card">
+          <h2><i class="fas fa-flask"></i> Simulación Interactiva</h2>
           
-          <div class="drawn-balls" id="drawn-balls">
-            <!-- Las pelotas extraídas aparecerán aquí -->
+          <div class="btn-group">
+            <button id="simulate-btn" class="btn"><i class="fas fa-play"></i> Realizar extracción</button>
+            <button id="reset-btn" class="btn"><i class="fas fa-redo"></i> Reiniciar simulación</button>
+            <button id="multi-btn" class="btn"><i class="fas fa-bolt"></i> 10 extracciones rápidas</button>
           </div>
           
-          <div class="sum-container">
-            <span>Suma Z =</span>
-            <div class="sum-value" id="sum-value">?</div>
+          <div class="simulation-container">
+            <p class="instruction" id="instruction">Presiona "Realizar extracción" para comenzar el experimento</p>
+            
+            <div class="drawn-balls" id="drawn-balls">
+              <!-- Las pelotas extraídas aparecerán aquí -->
+            </div>
+            
+            <div class="sum-container">
+              <span>Suma Z =</span>
+              <div class="sum-value" id="sum-value">?</div>
+            </div>
           </div>
-        </div>
-      </section>
-      
-      <section class="results-section">
-        <h2><i class="fas fa-chart-bar"></i> Resultados</h2>
+        </section>
         
-        <div class="results-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Suma (Z)</th>
-                <th>Combinaciones</th>
-                <th>Probabilidad Teórica</th>
-                <th>Probabilidad Experimental</th>
-              </tr>
-            </thead>
-            <tbody id="results-body">
-              <!-- Los resultados se llenarán con JavaScript -->
-            </tbody>
-          </table>
+        <section class="section-card">
+          <h2><i class="fas fa-chart-line"></i> Análisis de Resultados</h2>
           
-          <div class="chart-container">
-            <canvas id="probability-chart"></canvas>
+          <div class="results-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Suma (Z)</th>
+                  <th>Combinaciones</th>
+                  <th>P(Z) Teórica</th>
+                  <th>P(Z) Experimental</th>
+                  <th>Frecuencia</th>
+                </tr>
+              </thead>
+              <tbody id="results-body">
+                <!-- Los resultados se llenarán con JavaScript -->
+              </tbody>
+            </table>
+            
+            <div class="chart-container">
+              <canvas id="probability-chart"></canvas>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section class="theory-section">
+          <h2><i class="fas fa-graduation-cap"></i> Fundamentos Teóricos</h2>
+          
+          <div class="theory-content">
+            <div class="theory-card">
+              <h3><i class="fas fa-calculator"></i> Análisis Matemático</h3>
+              <p><strong>Experimento:</strong> Extracción de 2 pelotas sin reemplazo de una urna con pelotas numeradas {1, 2, 3, 4}.</p>
+              
+              <p><strong>Espacio muestral:</strong></p>
+              <ul>
+                <li>Total de combinaciones: C(4,2) = 6</li>
+                <li>Combinaciones posibles: (1,2), (1,3), (1,4), (2,3), (2,4), (3,4)</li>
+              </ul>
+              
+              <p><strong>Variable aleatoria Z:</strong> Suma de los números de las pelotas extraídas</p>
+              
+              <p><strong>Distribución de probabilidad:</strong></p>
+              <ul>
+                <li>P(Z = 3) = 1/6 ≈ 0.1667 → combinación (1,2)</li>
+                <li>P(Z = 4) = 1/6 ≈ 0.1667 → combinación (1,3)</li>
+                <li>P(Z = 5) = 2/6 ≈ 0.3333 → combinaciones (1,4), (2,3)</li>
+                <li>P(Z = 6) = 1/6 ≈ 0.1667 → combinación (2,4)</li>
+                <li>P(Z = 7) = 1/6 ≈ 0.1667 → combinación (3,4)</li>
+              </ul>
+            </div>
+            
+            <div class="theory-card">
+              <h3><i class="fas fa-chart-bar"></i> Interpretación de Resultados</h3>
+              <p>La simulación demuestra el comportamiento de la <strong>Ley de los Grandes Números</strong>: a medida que aumenta el número de ensayos, las frecuencias relativas convergen hacia las probabilidades teóricas.</p>
+              
+              <p><strong>Conceptos clave:</strong></p>
+              <ul>
+                <li><strong>Probabilidad teórica:</strong> Valor calculado mediante el modelo matemático</li>
+                <li><strong>Probabilidad experimental:</strong> Frecuencia relativa observada en la simulación</li>
+                <li><strong>Convergencia:</strong> Tendencia de la probabilidad experimental hacia la teórica</li>
+              </ul>
+              
+              <p><strong>Observaciones importantes:</strong></p>
+              <ul>
+                <li>Z = 5 es el valor más probable (33.33% de probabilidad)</li>
+                <li>Los valores Z = 3, 4, 6, 7 tienen igual probabilidad (16.67% cada uno)</li>
+                <li>El rango de Z es [3, 7] con valor esperado E(Z) = 5</li>
+                <li>La distribución es simétrica alrededor del valor modal</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer>
+        <p><strong>Simulación de Probabilidad y Estadística</strong></p>
+        <p>© 2024 - Distribución de Variable Aleatoria Discreta</p>
+      </footer>
     </div>
-
-    <section class="theory-section">
-      <h2><i class="fas fa-book"></i> Teoría del Experimento</h2>
-      
-      <div class="theory-content">
-        <div class="theory-card">
-          <h3><i class="fas fa-calculator"></i> Explicación Matemática</h3>
-          <p>En este experimento, tenemos una urna con 4 pelotas numeradas del 1 al 4. Extraemos dos pelotas al azar sin reemplazo.</p>
-          
-          <p>El espacio muestral consta de todas las combinaciones posibles de dos pelotas:</p>
-          <ul>
-            <li>Número de resultados posibles: C(4,2) = 6</li>
-            <li>Combinaciones: (1,2), (1,3), (1,4), (2,3), (2,4), (3,4)</li>
-          </ul>
-          
-          <p>Definimos la variable aleatoria Z como la suma de los números de las dos pelotas extraídas.</p>
-          
-          <p>La distribución de probabilidad de Z es:</p>
-          <ul>
-            <li>Z = 3: probabilidad 1/6</li>
-            <li>Z = 4: probabilidad 1/6</li>
-            <li>Z = 5: probabilidad 2/6</li>
-            <li>Z = 6: probabilidad 1/6</li>
-            <li>Z = 7: probabilidad 1/6</li>
-          </ul>
-        </div>
-        
-        <div class="theory-card">
-          <h3><i class="fas fa-lightbulb"></i> Interpretación de Resultados</h3>
-          <p>La simulación nos permite observar cómo las frecuencias relativas se acercan a las probabilidades teóricas a medida que aumentamos el número de ensayos.</p>
-          
-          <p>Conceptos clave:</p>
-          <ul>
-            <li><strong>Probabilidad teórica:</strong> Valor esperado basado en el modelo matemático</li>
-            <li><strong>Probabilidad experimental:</strong> Frecuencia relativa observada en la simulación</li>
-            <li><strong>Ley de los grandes números:</strong> A mayor número de ensayos, la probabilidad experimental se acerca a la teórica</li>
-          </ul>
-          
-          <p>En la gráfica podemos observar:</p>
-          <ul>
-            <li>La suma más probable es 5 (probabilidad 2/6 ≈ 0.333)</li>
-            <li>Las sumas 3, 4, 6 y 7 tienen la misma probabilidad (1/6 ≈ 0.167)</li>
-            <li>La suma mínima es 3, la máxima es 7</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <p>Simulación de Probabilidad y Estadística</p>
-      <p>© 2023 - Distribución de Bernoulli</p>
-    </footer>
   </div>
 
   <script>
-    // Datos iniciales
+    // Configuración inicial del experimento
     const balls = [1, 2, 3, 4];
     const combinations = [
       { balls: [1, 2], sum: 3 },
@@ -592,7 +813,7 @@
       { balls: [3, 4], sum: 7 }
     ];
     
-    // Probabilidades teóricas
+    // Probabilidades teóricas calculadas
     const theoreticalProb = {
       3: 1/6,
       4: 1/6,
@@ -601,7 +822,7 @@
       7: 1/6
     };
     
-    // Variables de estado
+    // Estado de la simulación
     let results = {
       3: { theoretical: theoreticalProb[3], experimental: 0, count: 0, combinations: ['(1,2)'] },
       4: { theoretical: theoreticalProb[4], experimental: 0, count: 0, combinations: ['(1,3)'] },
@@ -612,169 +833,5 @@
     
     let totalTrials = 0;
     
-    // Elementos DOM
-    const simulateBtn = document.getElementById('simulate-btn');
-    const resetBtn = document.getElementById('reset-btn');
-    const multiBtn = document.getElementById('multi-btn');
-    const drawnBalls = document.getElementById('drawn-balls');
-    const sumValue = document.getElementById('sum-value');
-    const resultsBody = document.getElementById('results-body');
-    const instruction = document.getElementById('instruction');
-    
-    // Colores para las pelotas
-    const ballColors = {
-      1: '#FF5252',
-      2: '#FF9800',
-      3: '#4CAF50',
-      4: '#2196F3'
-    };
-    
-    // Inicializar gráfico
-    const ctx = document.getElementById('probability-chart').getContext('2d');
-    let probabilityChart;
-    
-    function initChart() {
-      probabilityChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Z=3', 'Z=4', 'Z=5', 'Z=6', 'Z=7'],
-          datasets: [
-            {
-              label: 'Probabilidad Teórica',
-              data: Object.values(theoreticalProb),
-              backgroundColor: 'rgba(67, 97, 238, 0.7)',
-              borderColor: 'rgba(67, 97, 238, 1)',
-              borderWidth: 1
-            },
-            {
-              label: 'Probabilidad Experimental',
-              data: [0, 0, 0, 0, 0],
-              backgroundColor: 'rgba(76, 201, 240, 0.7)',
-              borderColor: 'rgba(76, 201, 240, 1)',
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 0.4,
-              title: {
-                display: true,
-                text: 'Probabilidad'
-              }
-            }
-          },
-          plugins: {
-            legend: {
-              position: 'top',
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return `${context.dataset.label}: ${context.parsed.y.toFixed(4)}`;
-                }
-              }
-            }
-          }
-        }
-      });
-    }
-    
-    // Función para realizar una extracción
-    function simulateDraw() {
-      // Seleccionar dos pelotas al azar sin reemplazo
-      const shuffled = [...balls].sort(() => 0.5 - Math.random());
-      const drawn = shuffled.slice(0, 2);
-      const sum = drawn[0] + drawn[1];
-      
-      // Actualizar resultados
-      totalTrials++;
-      results[sum].count++;
-      results[sum].experimental = results[sum].count / totalTrials;
-      
-      // Actualizar visualización
-      updateDrawnBalls(drawn, sum);
-      updateResultsTable();
-      updateChart();
-    }
-    
-    // Función para actualizar las pelotas extraídas
-    function updateDrawnBalls(drawn, sum) {
-      drawnBalls.innerHTML = '';
-      
-      drawn.forEach(ball => {
-        const ballElement = document.createElement('div');
-        ballElement.className = 'drawn-ball';
-        ballElement.textContent = ball;
-        ballElement.style.background = ballColors[ball];
-        drawnBalls.appendChild(ballElement);
-      });
-      
-      sumValue.textContent = sum;
-      instruction.textContent = `Extracción #${totalTrials}`;
-    }
-    
-    // Función para actualizar la tabla de resultados
-    function updateResultsTable() {
-      let html = '';
-      
-      for (const [sum, data] of Object.entries(results)) {
-        html += `
-          <tr>
-            <td>${sum}</td>
-            <td>${data.combinations.join(', ')}</td>
-            <td>${data.theoretical.toFixed(4)}</td>
-            <td>${data.experimental.toFixed(4)}</td>
-          </tr>
-        `;
-      }
-      
-      resultsBody.innerHTML = html;
-    }
-    
-    // Función para actualizar el gráfico
-    function updateChart() {
-      probabilityChart.data.datasets[1].data = Object.values(results).map(r => r.experimental);
-      probabilityChart.update();
-    }
-    
-    // Función para reiniciar la simulación
-    function resetSimulation() {
-      totalTrials = 0;
-      
-      for (const key in results) {
-        results[key].count = 0;
-        results[key].experimental = 0;
-      }
-      
-      drawnBalls.innerHTML = '';
-      sumValue.textContent = '?';
-      instruction.textContent = 'Presiona "Realizar extracción" para comenzar';
-      
-      updateResultsTable();
-      updateChart();
-    }
-    
-    // Función para realizar múltiples extracciones
-    function multiSimulate() {
-      for (let i = 0; i < 10; i++) {
-        simulateDraw();
-      }
-    }
-    
-    // Event listeners
-    document.addEventListener('DOMContentLoaded', function() {
-      initChart();
-      updateResultsTable();
-    });
-    
-    simulateBtn.addEventListener('click', simulateDraw);
-    resetBtn.addEventListener('click', resetSimulation);
-    multiBtn.addEventListener('click', multiSimulate);
-  </script>
-</body>
-</html>
+    // Referencias a elementos DOM
+    const simulateBtn = document.getElementByI
