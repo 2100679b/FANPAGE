@@ -22,37 +22,52 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f2f5;
+  background-color: #ffff00; /* Amarillo puro */
   color: var(--dark);
   line-height: 1.6;
+  position: relative;
+}
+
+/* Patrón de cuadros amarillos con bordes blancos */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+      linear-gradient(white 2px, transparent 2px),
+      linear-gradient(90deg, white 2px, transparent 2px);
+  background-size: 50px 50px; /* Tamaño de cuadrícula */
+  z-index: -1;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  background: rgba(255, 255, 255, 0.95); /* Fondo blanco ligeramente transparente */
 }
 
 header {
   background: var(--header-bg);
   color: white;
-  padding: 2rem 0;
+  padding: 1rem 0 0;
   border-radius: 0 0 20px 20px;
   margin-bottom: 2rem;
   box-shadow: var(--shadow);
 }
 
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.header-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 20px 1rem;
 }
 
 .header-content h1 {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   margin-bottom: 0.5rem;
 }
 
@@ -62,8 +77,8 @@ header {
 }
 
 .header-icon {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   display: flex;
@@ -72,8 +87,52 @@ header {
 }
 
 .coin {
-  font-size: 3rem;
+  font-size: 2.5rem;
   animation: flip 3s infinite ease-in-out;
+}
+
+@keyframes flip {
+  0%, 100% { transform: rotateY(0); }
+  50% { transform: rotateY(180deg); }
+}
+
+/* Estilos del menú de navegación */
+nav {
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+nav ul li {
+  margin: 0;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 12px 20px;
+  display: block;
+  transition: var(--transition);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+nav ul li a i {
+  font-size: 1.1rem;
 }
 
 @keyframes flip {
