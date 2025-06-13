@@ -17,7 +17,7 @@
 }
 
 body {
-    background: #ffffcc; /* Fondo amarillo claro */
+    background: #ffff00; /* Amarillo puro */
     min-height: 100vh;
     color: #333;
     position: relative;
@@ -35,7 +35,7 @@ body::before {
     background-image: 
         linear-gradient(white 2px, transparent 2px),
         linear-gradient(90deg, white 2px, transparent 2px);
-    background-size: 40px 40px;
+    background-size: 50px 50px; /* Tamaño de cuadrícula */
     z-index: 0;
 }
 
@@ -44,7 +44,7 @@ body::before {
     z-index: 10;
     max-width: 1200px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.97);
+    background: rgba(255, 255, 255, 0.95); /* Fondo blanco ligeramente transparente */
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
 }
 
