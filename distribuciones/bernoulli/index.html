@@ -1,132 +1,1110 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora de Distribución de Bernoulli</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribución de Bernoulli</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <!-- Encabezado superior -->
-      <div class="header-top">
-        <div class="header-content">
-          <h1>Distribución de Bernoulli</h1>
-          <p>Modelando experimentos con dos resultados posibles</p>
+    <header class="hero">
+        <div class="container">
+            <h1 class="hero-title">Distribución de Bernoulli</h1>
+            <p class="hero-subtitle">Modelando experimentos con varios resultados posibles</p>
         </div>
-        <div class="header-icon">
-          <div class="coin">⚖️</div>
-        </div>
-      </div>
-
-      <!-- Menú de navegación -->
-      <nav>
-        <ul>
-          <li><a href="../../index.html"><i class="fas fa-home"></i> Inicio</a></li>
-          <li><a href="../../conceptos_basicos/conceptos_basicos.html" class="active"><i class="fas fa-brain"></i> Conceptos</a></li>
-          <li><a href="../../calculadoras/calculadoras.html"><i class="fas fa-calculator"></i> Herramientas</a></li>
-          <li><a href="../../recursos/recursos.html"><i class="fas fa-book"></i> Recursos</a></li>
-          <li><a href="../../simulaciones/simulaciones.html" class="menu-btn"><i class="fas fa-dice"></i> Simulaciones</a></li>
-          <li><a href="./distribuciones/distribuciones.html" class="menu-btn"><i class="fas fa-chart-bar"></i> Distribuciones</a></li>
-          <li><a href="../../mantenimiento/mantenimiento.html"><i class="fas fa-envelope"></i> Contacto</a></li>
-        </ul>
-        <div class="btn-title">Distribuciones</div>
-      </nav>
     </header>
 
-    <!-- Sección de entradas -->
-    <div class="content">
-      <div class="input-section">
-        <h2>Parámetros</h2>
-        <div class="input-group">
-          <label for="probability">Probabilidad de éxito (p):</label>
-          <div class="input-container">
-            <input type="range" id="probability-slider" min="0" max="1" step="0.01" value="0.5" />
-            <input type="number" id="probability-input" min="0" max="1" step="0.01" value="0.5" />
-          </div>
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#teoria">Teoría</a></li>
+                <li><a href="#simulador">Simulador</a></li>
+                <li><a href="#ejemplos">Ejemplos</a></li>
+                <li><a href="#aplicaciones">Aplicaciones</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <!-- Resultados -->
-        <div class="results">
-          <div class="result-card">
-            <div class="result-label">P(X=1) = p</div>
-            <div class="result-value" id="success-prob">0.5000</div>
-          </div>
-          <div class="result-card">
-            <div class="result-label">P(X=0) = 1-p</div>
-            <div class="result-value" id="failure-prob">0.5000</div>
-          </div>
-          <div class="result-card">
-            <div class="result-label">Valor esperado (μ)</div>
-            <div class="result-value" id="expected-value">0.5000</div>
-          </div>
-          <div class="result-card">
-            <div class="result-label">Varianza (σ²)</div>
-            <div class="result-value" id="variance">0.2500</div>
-          </div>
-        </div>
-
-        <button id="simulate-btn">Simular experimento</button>
-      </div>
-
-      <!-- Gráficas -->
-      <div class="graph-section">
-        <h2>Visualización</h2>
-        <div class="graph-container">
-          <div class="graph-card">
-            <h3>Función de Masa de Probabilidad (PMF)</h3>
-            <canvas id="pmf-chart"></canvas>
-          </div>
-          <div class="graph-card">
-            <h3>Función de Distribución Acumulada (CDF)</h3>
-            <canvas id="cdf-chart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Teoría -->
-    <div class="theory-section">
-      <h2>Teoría de la Distribución de Bernoulli</h2>
-      <div class="theory-content">
-        <div class="theory-text">
-          <p>La distribución de Bernoulli es un modelo de probabilidad para un experimento aleatorio que tiene exactamente dos resultados posibles: "éxito" (1) y "fracaso" (0).</p>
-          <p><strong>Parámetro:</strong> p (probabilidad de éxito, 0 ≤ p ≤ 1)</p>
-          <p><strong>Función de masa de probabilidad:</strong></p>
-          <div class="formula">
-            P(X=k) =
-            <div class="cases">
-              <div>p <span class="case">si k=1</span></div>
-              <div>1-p <span class="case">si k=0</span></div>
+    <main class="container">
+        <section id="teoria" class="section">
+            <h2>¿Qué es la Distribución de Bernoulli?</h2>
+            <div class="content-grid">
+                <div class="theory-card">
+                    <h3>Definición</h3>
+                    <p>La distribución de Bernoulli es una distribución de probabilidad discreta que modela experimentos con exactamente dos resultados posibles: éxito (1) o fracaso (0).</p>
+                </div>
+                <div class="theory-card">
+                    <h3>Parámetros</h3>
+                    <p><strong>p:</strong> Probabilidad de éxito (0 ≤ p ≤ 1)</p>
+                    <p><strong>q = 1-p:</strong> Probabilidad de fracaso</p>
+                </div>
+                <div class="theory-card">
+                    <h3>Función de Probabilidad</h3>
+                    <p>P(X = k) = p^k × (1-p)^(1-k)</p>
+                    <p>donde k ∈ {0, 1}</p>
+                </div>
+                <div class="theory-card">
+                    <h3>Estadísticas</h3>
+                    <p><strong>Media:</strong> E[X] = p</p>
+                    <p><strong>Varianza:</strong> Var(X) = p(1-p)</p>
+                </div>
             </div>
-          </div>
-          <p><strong>Valor esperado:</strong> E[X] = p</p>
-          <p><strong>Varianza:</strong> Var(X) = p(1-p)</p>
-          <p>Esta distribución es la base de otras distribuciones importantes como la binomial y es ampliamente utilizada en pruebas de hipótesis, control de calidad y modelos de riesgo.</p>
-        </div>
+        </section>
 
-        <div class="theory-examples">
-          <h3>Ejemplos de aplicación:</h3>
-          <ul>
-            <li>Lanzamiento de una moneda (cara o cruz)</li>
-            <li>Resultado de una pregunta de sí/no en una encuesta</li>
-            <li>Éxito/fracaso de un tratamiento médico</li>
-            <li>Detección de errores en transmisión de datos</li>
-            <li>Aprobación/rechazo de una solicitud de crédito</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+        <section id="simulador" class="section">
+            <h2>Simulador Interactivo</h2>
+            <div class="simulator-container">
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="probability">Probabilidad de éxito (p):</label>
+                        <input type="range" id="probability" min="0" max="1" step="0.01" value="0.5">
+                        <span id="prob-value">0.50</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="trials">Número de experimentos:</label>
+                        <input type="number" id="trials" min="1" max="1000" value="100">
+                    </div>
+                    <button id="simulate-btn" class="btn-primary">Simular Experimento</button>
+                    <button id="reset-btn" class="btn-secondary">Reiniciar</button>
+                </div>
+                
+                <div class="results">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Éxitos</h4>
+                            <span id="successes">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Fracasos</h4>
+                            <span id="failures">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Proporción de Éxitos</h4>
+                            <span id="success-rate">0.00</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Media Teórica</h4>
+                            <span id="theoretical-mean">0.50</span>
+                        </div>
+                    </div>
+                    
+                    <div class="visualization">
+                        <canvas id="histogram" width="600" height="300"></canvas>
+                    </div>
+                    
+                    <div class="sequence-display">
+                        <h4>Últimos 20 resultados:</h4>
+                        <div id="sequence" class="sequence"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Pie de página -->
+        <section id="ejemplos" class="section">
+            <h2>Ejemplos Prácticos</h2>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <h3>🪙 Lanzamiento de Moneda</h3>
+                    <p><strong>Experimento:</strong> Lanzar una moneda justa</p>
+                    <p><strong>Éxito:</strong> Cara (p = 0.5)</p>
+                    <p><strong>Fracaso:</strong> Cruz (p = 0.5)</p>
+                    <button class="example-btn" data-p="0.5" data-trials="50">Simular</button>
+                </div>
+                <div class="example-card">
+                    <h3>🎯 Tiro al Blanco</h3>
+                    <p><strong>Experimento:</strong> Disparar al centro</p>
+                    <p><strong>Éxito:</strong> Dar en el blanco (p = 0.7)</p>
+                    <p><strong>Fracaso:</strong> Fallar (p = 0.3)</p>
+                    <button class="example-btn" data-p="0.7" data-trials="30">Simular</button>
+                </div>
+                <div class="example-card">
+                    <h3>📧 Respuesta a Email</h3>
+                    <p><strong>Experimento:</strong> Enviar email marketing</p>
+                    <p><strong>Éxito:</strong> Recibir respuesta (p = 0.15)</p>
+                    <p><strong>Fracaso:</strong> Sin respuesta (p = 0.85)</p>
+                    <button class="example-btn" data-p="0.15" data-trials="100">Simular</button>
+                </div>
+                <div class="example-card">
+                    <h3>🏥 Diagnóstico Médico</h3>
+                    <p><strong>Experimento:</strong> Resultado de prueba</p>
+                    <p><strong>Éxito:</strong> Positivo (p = 0.05)</p>
+                    <p><strong>Fracaso:</strong> Negativo (p = 0.95)</p>
+                    <button class="example-btn" data-p="0.05" data-trials="200">Simular</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="aplicaciones" class="section">
+            <h2>Aplicaciones en el Mundo Real</h2>
+            <div class="applications">
+                <div class="app-category">
+                    <h3>💼 Negocios y Marketing</h3>
+                    <ul>
+                        <li>Tasa de conversión de ventas</li>
+                        <li>Clics en publicidad digital</li>
+                        <li>Satisfacción del cliente (satisfecho/insatisfecho)</li>
+                        <li>Abandono de carritos de compra</li>
+                    </ul>
+                </div>
+                <div class="app-category">
+                    <h3>🔬 Investigación y Ciencia</h3>
+                    <ul>
+                        <li>Efectividad de tratamientos médicos</li>
+                        <li>Supervivencia de organismos</li>
+                        <li>Detección de partículas en física</li>
+                        <li>Fallas en componentes electrónicos</li>
+                    </ul>
+                </div>
+                <div class="app-category">
+                    <h3>🎮 Tecnología y Entretenimiento</h3>
+                    <ul>
+                        <li>Éxito/fallo en videojuegos</li>
+                        <li>Transmisión de datos (bit correcto/incorrecto)</li>
+                        <li>Detección de spam en emails</li>
+                        <li>Reconocimiento de patrones en IA</li>
+                    </ul>
+                </div>
+                <div class="app-category">
+                    <h3>📊 Control de Calidad</h3>
+                    <ul>
+                        <li>Productos defectuosos en manufactura</li>
+                        <li>Errores en procesos de producción</li>
+                        <li>Cumplimiento de estándares</li>
+                        <li>Auditorías y inspecciones</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <footer>
-      <p>© 2023 Calculadora de Distribución de Bernoulli | Herramienta educativa para probabilidad y estadística</p>
+        <div class="container">
+            <p>&copy; 2025 Distribución de Bernoulli - Simulador Educativo</p>
+        </div>
     </footer>
-  </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
+
+<!-- styles.css -->
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.hero {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+    animation: float 20s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 0;
+}
+
+.nav-links li {
+    margin: 0 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    padding: 20px 0;
+    display: block;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: #667eea;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+main {
+    background: white;
+    min-height: 100vh;
+    position: relative;
+}
+
+.section {
+    padding: 80px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.section:last-child {
+    border-bottom: none;
+}
+
+.section h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #333;
+    position: relative;
+}
+
+.section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.theory-card {
+    background: linear-gradient(135deg, #f8f9ff, #f0f2ff);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theory-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+}
+
+.theory-card h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.simulator-container {
+    background: #f8f9ff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+    align-items: end;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.control-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: #ddd;
+    outline: none;
+    transition: background 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+}
+
+input[type="number"] {
+    padding: 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input[type="number"]:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #f8f9ff;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+    background: #667eea;
+    color: white;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: #667eea;
+}
+
+.stat-card h4 {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-card span {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.visualization {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.sequence-display {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.sequence-display h4 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.sequence {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.result-item {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 1.1rem;
+    animation: popIn 0.3s ease;
+}
+
+.result-success {
+    background: linear-gradient(45deg, #4CAF50, #66BB6A);
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
+.result-failure {
+    background: linear-gradient(45deg, #f44336, #EF5350);
+    box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.examples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.example-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #eee;
+}
+
+.example-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.example-card h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.example-card p {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.example-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.example-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+}
+
+.applications {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.app-category {
+    background: linear-gradient(135deg, #f8f9ff, #f0f2ff);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.1);
+}
+
+.app-category h3 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.app-category ul {
+    list-style: none;
+}
+
+.app-category li {
+    padding: 8px 0;
+    color: #555;
+    position: relative;
+    padding-left: 25px;
+}
+
+.app-category li::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-size: 0.8rem;
+}
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .nav-links li {
+        margin: 0;
+    }
+    
+    .controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+#prob-value {
+    font-weight: bold;
+    color: #667eea;
+    margin-left: 10px;
+}
+</style>
+
+<script>
+class BernoulliSimulator {
+    constructor() {
+        this.results = [];
+        this.initializeElements();
+        this.setupEventListeners();
+        this.initializeCanvas();
+    }
+
+    initializeElements() {
+        this.probabilitySlider = document.getElementById('probability');
+        this.probValueDisplay = document.getElementById('prob-value');
+        this.trialsInput = document.getElementById('trials');
+        this.simulateBtn = document.getElementById('simulate-btn');
+        this.resetBtn = document.getElementById('reset-btn');
+        
+        this.successesDisplay = document.getElementById('successes');
+        this.failuresDisplay = document.getElementById('failures');
+        this.successRateDisplay = document.getElementById('success-rate');
+        this.theoreticalMeanDisplay = document.getElementById('theoretical-mean');
+        
+        this.sequenceDisplay = document.getElementById('sequence');
+        this.canvas = document.getElementById('histogram');
+        this.ctx = this.canvas.getContext('2d');
+    }
+
+    setupEventListeners() {
+        this.probabilitySlider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            this.probValueDisplay.textContent = value.toFixed(2);
+            this.theoreticalMeanDisplay.textContent = value.toFixed(2);
+        });
+
+        this.simulateBtn.addEventListener('click', () => this.runSimulation());
+        this.resetBtn.addEventListener('click', () => this.reset());
+
+        // Event listeners para botones de ejemplo
+        document.querySelectorAll('.example-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const p = parseFloat(e.target.dataset.p);
+                const trials = parseInt(e.target.dataset.trials);
+                this.setParameters(p, trials);
+                this.runSimulation();
+                
+                // Scroll suave al simulador
+                document.getElementById('simulador').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            });
+        });
+    }
+
+    initializeCanvas() {
+        this.canvas.width = 600;
+        this.canvas.height = 300;
+        this.drawEmptyHistogram();
+    }
+
+    setParameters(p, trials) {
+        this.probabilitySlider.value = p;
+        this.probValueDisplay.textContent = p.toFixed(2);
+        this.theoreticalMeanDisplay.textContent = p.toFixed(2);
+        this.trialsInput.value = trials;
+    }
+
+    runSimulation() {
+        const p = parseFloat(this.probabilitySlider.value);
+        const trials = parseInt(this.trialsInput.value);
+        
+        if (trials <= 0 || trials > 1000) {
+            alert('El número de experimentos debe estar entre 1 y 1000');
+            return;
+        }
+
+        this.results = [];
+        
+        // Generar resultados con animación
+        this.simulateWithAnimation(p, trials, 0);
+    }
+
+    simulateWithAnimation(p, trials, currentTrial) {
+        if (currentTrial >= trials) {
+            this.updateVisualizations();
+            return;
+        }
+
+        // Generar resultado de Bernoulli
+        const result = Math.random() < p ? 1 : 0;
+        this.results.push(result);
+
+        // Actualizar estadísticas en tiempo real cada 10 trials o en el último
+        if (currentTrial % 10 === 0 || currentTrial === trials - 1) {
+            this.updateStatistics();
+            this.updateSequenceDisplay();
+        }
+
+        // Continuar con el siguiente trial
+        setTimeout(() => {
+            this.simulateWithAnimation(p, trials, currentTrial + 1);
+        }, Math.max(1, 50 - trials / 20)); // Velocidad adaptiva
+    }
+
+    updateStatistics() {
+        const successes = this.results.filter(r => r === 1).length;
+        const failures = this.results.length - successes;
+        const successRate = this.results.length > 0 ? successes / this.results.length : 0;
+
+        this.successesDisplay.textContent = successes;
+        this.failuresDisplay.textContent = failures;
+        this.successRateDisplay.textContent = successRate.toFixed(3);
+    }
+
+    updateSequenceDisplay() {
+        const lastResults = this.results.slice(-20);
+        this.sequenceDisplay.innerHTML = '';
+        
+        lastResults.forEach((result, index) => {
+            const item = document.createElement('div');
+            item.className = `result-item ${result ? 'result-success' : 'result-failure'}`;
+            item.textContent = result;
+            item.style.animationDelay = `${index * 0.05}s`;
+            this.sequenceDisplay.appendChild(item);
+        });
+    }
+
+    updateVisualizations() {
+        this.drawHistogram();
+    }
+
+    drawHistogram() {
+        const successes = this.results.filter(r => r === 1).length;
+        const failures = this.results.length - successes;
+        
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Configuración del gráfico
+        const barWidth = 120;
+        const maxHeight = 200;
+        const maxCount = Math.max(successes, failures, 1);
+        
+        // Calcular alturas
+        const successHeight = (successes / maxCount) * maxHeight;
+        const failureHeight = (failures / maxCount) * maxHeight;
+        
+        // Posiciones
+        const successX = 150;
+        const failureX = 330;
+        const baseY = 250;
+        
+        // Dibujar barras con gradientes
+        this.drawGradientBar(successX, baseY - successHeight, barWidth, successHeight, '#4CAF50', '#66BB6A');
+        this.drawGradientBar(failureX, baseY - failureHeight, barWidth, failureHeight, '#f44336', '#EF5350');
+        
+        // Etiquetas y valores
+        this.ctx.fillStyle = '#333';
+        this.ctx.font = 'bold 16px Arial';
+        this.ctx.textAlign = 'center';
+        
+        // Etiquetas de categorías
+        this.ctx.fillText('Éxitos (1)', successX + barWidth/2, baseY + 20);
+        this.ctx.fillText('Fracasos (0)', failureX + barWidth/2, baseY + 20);
+        
+        // Valores en las barras
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = 'bold 20px Arial';
+        if (successHeight > 30) {
+            this.ctx.fillText(successes, successX + barWidth/2, baseY - successHeight/2 + 7);
+        }
+        if (failureHeight > 30) {
+            this.ctx.fillText(failures, failureX + barWidth/2, baseY - failureHeight/2 + 7);
+        }
+        
+        // Título del gráfico
+        this.ctx.fillStyle = '#333';
+        this.ctx.font = 'bold 18px Arial';
+        this.ctx.fillText('Histograma de Resultados', this.canvas.width/2, 30);
+        
+        // Líneas de referencia
+        this.drawGridLines(baseY, maxCount);
+    }
+
+    drawGradientBar(x, y, width, height, color1, color2) {
+        const gradient = this.ctx.createLinearGradient(0, y, 0, y + height);
+        gradient.addColorStop(0, color1);
+        gradient.addColorStop(1, color2);
+        
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(x, y, width, height);
+        
+        // Sombra
+        this.ctx.shadowColor = 'rgba(0,0,0,0.3)';
+        this.ctx.shadowBlur = 10;
+        this.ctx.shadowOffsetX = 3;
+        this.ctx.shadowOffsetY = 3;
+        this.ctx.fillRect(x, y, width, height);
+        
+        // Reset shadow
+        this.ctx.shadowColor = 'transparent';
+        this.ctx.shadowBlur = 0;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
+        
+        // Borde
+        this.ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeRect(x, y, width, height);
+    }
+
+    drawGridLines(baseY, maxCount) {
+        this.ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+        this.ctx.lineWidth = 1;
+        this.ctx.setLineDash([2, 2]);
+        
+        const steps = 5;
+        for (let i = 1; i <= steps; i++) {
+            const y = baseY - (i * 200 / steps);
+            this.ctx.beginPath();
+            this.ctx.moveTo(100, y);
+            this.ctx.lineTo(500, y);
+            this.ctx.stroke();
+            
+            // Etiquetas del eje Y
+            this.ctx.fillStyle = '#666';
+            this.ctx.font = '12px Arial';
+            this.ctx.textAlign = 'right';
+            this.ctx.fillText(Math.round(maxCount * i / steps), 95, y + 4);
+        }
+        
+        this.ctx.setLineDash([]);
+    }
+
+    drawEmptyHistogram() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Título
+        this.ctx.fillStyle = '#666';
+        this.ctx.font = 'bold 18px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Histograma de Resultados', this.canvas.width/2, 30);
+        
+        // Mensaje de inicio
+        this.ctx.font = '16px Arial';
+        this.ctx.fillStyle = '#999';
+        this.ctx.fillText('Haz clic en "Simular Experimento" para ver los resultados', this.canvas.width/2, this.canvas.height/2);
+        
+        // Ejes
+        this.ctx.strokeStyle = '#333';
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        this.ctx.moveTo(100, 250);
+        this.ctx.lineTo(500, 250);
+        this.ctx.moveTo(100, 50);
+        this.ctx.lineTo(100, 250);
+        this.ctx.stroke();
+        
+        // Etiquetas de ejes
+        this.ctx.fillStyle = '#333';
+        this.ctx.font = '14px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Resultado', 300, 280);
+        
+        this.ctx.save();
+        this.ctx.translate(30, 150);
+        this.ctx.rotate(-Math.PI / 2);
+        this.ctx.fillText('Frecuencia', 0, 0);
+        this.ctx.restore();
+    }
+
+    reset() {
+        this.results = [];
+        this.successesDisplay.textContent = '0';
+        this.failuresDisplay.textContent = '0';
+        this.successRateDisplay.textContent = '0.00';
+        this.sequenceDisplay.innerHTML = '';
+        this.drawEmptyHistogram();
+        
+        // Animación de reset
+        const cards = document.querySelectorAll('.stat-card');
+        cards.forEach(card => {
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                card.style.transform = 'scale(1)';
+            }, 100);
+        });
+    }
+}
+
+// Animaciones adicionales para mejorar la experiencia
+class AnimationManager {
+    static fadeIn(element, duration = 500) {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+        element.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
+        
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, 50);
+    }
+
+    static pulse(element) {
+        element.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            element.style.transform = 'scale(1)';
+        }, 200);
+    }
+
+    static shake(element) {
+        element.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            element.style.animation = '';
+        }, 500);
+    }
+}
+
+// Agregar animación de shake a CSS
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = `
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+`;
+document.head.appendChild(shakeStyle);
+
+// Funciones de utilidad estadística
+class StatisticsUtil {
+    static calculateConfidenceInterval(p, n, confidence = 0.95) {
+        const z = confidence === 0.95 ? 1.96 : 2.58;
+        const margin = z * Math.sqrt((p * (1 - p)) / n);
+        return {
+            lower: Math.max(0, p - margin),
+            upper: Math.min(1, p + margin)
+        };
+    }
+
+    static chiSquareTest(observed, expected) {
+        const chi2 = observed.reduce((sum, obs, i) => {
+            const exp = expected[i];
+            return sum + Math.pow(obs - exp, 2) / exp;
+        }, 0);
+        return chi2;
+    }
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    const simulator = new BernoulliSimulator();
+    
+    // Animaciones de entrada
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                AnimationManager.fadeIn(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observar elementos para animaciones
+    document.querySelectorAll('.theory-card, .example-card, .app-category').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Efecto parallax suave en el hero
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector('.hero');
+        if (hero) {
+            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+    });
+
+    // Navegación suave
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Tooltip dinámico para controles
+    const tooltips = {
+        'probability': 'Ajusta la probabilidad de éxito para el experimento de Bernoulli',
+        'trials': 'Número total de experimentos independientes a realizar'
+    };
+
+    Object.keys(tooltips).forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.title = tooltips[id];
+        }
+    });
+
+    // Validación en tiempo real
+    const trialsInput = document.getElementById('trials');
+    trialsInput.addEventListener('input', (e) => {
+        const value = parseInt(e.target.value);
+        if (value > 1000) {
+            e.target.value = 1000;
+            AnimationManager.shake(e.target);
+        } else if (value < 1) {
+            e.target.value = 1;
+            AnimationManager.shake(e.target);
+        }
+    });
+
+    // Easter egg: Konami code para modo desarrollador
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+                console.log('🎉 ¡Modo desarrollador activado!');
+                console.log('Estadísticas avanzadas disponibles en window.bernoulliStats');
+                window.bernoulliStats = StatisticsUtil;
+                konamiIndex = 0;
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    });
+
+    console.log('🎲 Simulador de Distribución de Bernoulli cargado correctamente');
+});
+</script>
