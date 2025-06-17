@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribución Uniforme Discreta</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="../conceptos_basicos/conceptos_basicos.html">Conceptos</a></li>
+                    <li><a href="../calculadoras/calculadoras.html">Herramientas</a></li>
+                    <li><a href="../recursos/recursos.html" class="active"><i class="fas fa-book"></i> Recursos</a></li>
+                    <li><a href="../mantenimiento/mantenimiento.html">Contacto</a></li>
+                </ul>
+            </nav>
+            <h1 class="hero-title">Distribución Uniforme Discreta</h1>
+            <p class="hero-subtitle">Modelando experimentos con varios resultados equiprobables</p>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#teoria">Teoría</a></li>
+                <li><a href="#simulador">Simulador</a></li>
+                <li><a href="#ejemplos">Ejemplos</a></li>
+                <li><a href="#aplicaciones">Aplicaciones</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="teoria" class="section">
+            <h2>¿Qué es la Distribución Uniforme Discreta?</h2>
+            <div class="content-grid">
+                <div class="theory-card">
+                    <h3>Definición</h3>
+                    <p>La distribución uniforme discreta modela experimentos donde cada uno de los <strong>n</strong> resultados posibles tiene la misma probabilidad de ocurrir.</p>
+                </div>
+                <div class="theory-card">
+                    <h3>Parámetros</h3>
+                    <p><strong>a:</strong> Valor mínimo del rango</p>
+                    <p><strong>b:</strong> Valor máximo del rango</p>
+                    <p><strong>n = b - a + 1:</strong> Número total de valores posibles</p>
+                </div>
+                <div class="theory-card">
+                    <h3>Función de Probabilidad</h3>
+                    <p>P(X = k) = 1/n</p>
+                    <p>para k ∈ {a, a+1, a+2, ..., b}</p>
+                    <p>P(X = k) = 0 en caso contrario</p>
+                </div>
+                <div class="theory-card">
+                    <h3>Estadísticas</h3>
+                    <p><strong>Media:</strong> E[X] = (a + b)/2</p>
+                    <p><strong>Varianza:</strong> Var(X) = (n² - 1)/12</p>
+                    <p><strong>Desviación Estándar:</strong> σ = √[(n² - 1)/12]</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="simulador" class="section">
+            <h2>Simulador Interactivo</h2>
+            <div class="simulator-container">
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="min-value">Valor mínimo (a):</label>
+                        <input type="number" id="min-value" min="1" max="50" value="1">
+                    </div>
+                    <div class="control-group">
+                        <label for="max-value">Valor máximo (b):</label>
+                        <input type="number" id="max-value" min="1" max="50" value="6">
+                    </div>
+                    <div class="control-group">
+                        <label for="trials">Número de experimentos:</label>
+                        <input type="number" id="trials" min="1" max="10000" value="1000">
+                    </div>
+                    <div class="control-group">
+                        <button id="simulate-btn" class="btn-primary">Simular Experimento</button>
+                        <button id="reset-btn" class="btn-secondary">Reiniciar</button>
+                    </div>
+                </div>
+                
+                <div class="distribution-info">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h4>Rango de Valores</h4>
+                            <span id="range-display">[1, 6]</span>
+                        </div>
+                        <div class="info-card">
+                            <h4>Número de Valores (n)</h4>
+                            <span id="n-values">6</span>
+                        </div>
+                        <div class="info-card">
+                            <h4>Probabilidad por Valor</h4>
+                            <span id="prob-per-value">0.1667</span>
+                        </div>
+                        <div class="info-card">
+                            <h4>Media Teórica</h4>
+                            <span id="theoretical-mean">3.5</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="results">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Media Experimental</h4>
+                            <span id="experimental-mean">0.00</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Varianza Experimental</h4>
+                            <span id="experimental-variance">0.00</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Varianza Teórica</h4>
+                            <span id="theoretical-variance">2.92</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Desviación Estándar</h4>
+                            <span id="std-deviation">0.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="visualization">
+                        <canvas id="histogram" width="800" height="400"></canvas>
+                    </div>
+                    
+                    <div class="frequency-table">
+                        <h4>Tabla de Frecuencias</h4>
+                        <div id="frequency-table-content"></div>
+                    </div>
+                    
+                    <div class="sequence-display">
+                        <h4>Últimos 30 resultados:</h4>
+                        <div id="sequence" class="sequence"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ejemplos" class="section">
+            <h2>Ejemplos Prácticos</h2>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <h3>🎲 Dado Estándar</h3>
+                    <p><strong>Experimento:</strong> Lanzar un dado de 6 caras</p>
+                    <p><strong>Valores:</strong> {1, 2, 3, 4, 5, 6}</p>
+                    <p><strong>Probabilidad:</strong> 1/6 ≈ 0.1667 para cada cara</p>
+                    <button class="example-btn" data-min="1" data-max="6" data-trials="600">Simular</button>
+                </div>
+                <div class="example-card">
+                    <h3>🃏 Carta de una Baraja</h3>
+                    <p><strong>Experimento:</strong> Extraer carta (sin jokers)</p>
+                    <p><strong>Valores:</strong> {1, 2, 3, ..., 52}</p>
+                    <p><strong>Probabilidad:</strong> 1/52 ≈ 0.0192 para cada carta</p>
+                    <button class="example-btn" data-min="1" data-max="52" data-trials="1000">Simular</button>
+                </div>
+                <div class="example-card">
+                    <h3>🎰 Ruleta Simplificada</h3>
+                    <p><strong>Experimento:</strong> Ruleta con 10 números</p>
+                    <p><strong>Valores:</strong> {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}</p>
+                    <p><strong>Probabilidad:</strong> 1/10 = 0.1 para cada número</p>
+                    <button class="example-btn" data-min="0" data-max="9" data-trials="500">Simular</button>
+                </div>
+                <div class="example-card">
+                    <h3>🎯 Sorteo de Números</h3>
+                    <p><strong>Experimento:</strong> Sorteo del 1 al 100</p>
+                    <p><strong>Valores:</strong> {1, 2, 3, ..., 100}</p>
+                    <p><strong>Probabilidad:</strong> 1/100 = 0.01 para cada número</p>
+                    <button class="example-btn" data-min="1" data-max="100" data-trials="2000">Simular</button>
+                </div>
+                <div class="example-card">
+                    <h3>🎲 Dado de 20 Caras (D20)</h3>
+                    <p><strong>Experimento:</strong> Dado de rol (D&D)</p>
+                    <p><strong>Valores:</strong> {1, 2, 3, ..., 20}</p>
+                    <p><strong>Probabilidad:</strong> 1/20 = 0.05 para cada cara</p>
+                    <button class="example-btn" data-min="1" data-max="20" data-trials="800">Simular</button>
+                </div>
+                <div class="example-card">
+                    <h3>🔢 Dígito Aleatorio</h3>
+                    <p><strong>Experimento:</strong> Generar dígito aleatorio</p>
+                    <p><strong>Valores:</strong> {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}</p>
+                    <p><strong>Probabilidad:</strong> 1/10 = 0.1 para cada dígito</p>
+                    <button class="example-btn" data-min="0" data-max="9" data-trials="1000">Simular</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="aplicaciones" class="section">
+            <h2>Aplicaciones en el Mundo Real</h2>
+            <div class="applications">
+                <div class="app-category">
+                    <h3>🎮 Juegos y Entretenimiento</h3>
+                    <ul>
+                        <li>Lanzamiento de dados en juegos de mesa</li>
+                        <li>Generación de números aleatorios en videojuegos</li>
+                        <li>Sorteos y rifas equitativas</li>
+                        <li>Selección aleatoria de cartas</li>
+                        <li>Ruedas de la fortuna y ruletas</li>
+                    </ul>
+                </div>
+                <div class="app-category">
+                    <h3>🔬 Investigación y Estadística</h3>
+                    <ul>
+                        <li>Muestreo aleatorio simple</li>
+                        <li>Asignación aleatoria en experimentos</li>
+                        <li>Generación de datos sintéticos</li>
+                        <li>Pruebas de hipótesis nulas</li>
+                        <li>Simulaciones Monte Carlo</li>
+                    </ul>
+                </div>
+                <div class="app-category">
+                    <h3>💻 Programación y Algoritmos</h3>
+                    <ul>
+                        <li>Algoritmos de ordenamiento aleatorio</li>
+                        <li>Pruebas unitarias con datos aleatorios</li>
+                        <li>Inicialización de semillas aleatorias</li>
+                        <li>Algoritmos de hash uniformes</li>
+                        <li>Distribución de carga en servidores</li>
+                    </ul>
+                </div>
+                <div class="app-category">
+                    <h3>🏭 Industria y Manufactura</h3>
+                    <ul>
+                        <li>Control de calidad por muestreo</li>
+                        <li>Asignación de lotes de producción</li>
+                        <li>Pruebas de resistencia de materiales</li>
+                        <li>Rotación equitativa de equipos</li>
+                        <li>Distribución de turnos laborales</li>
+                    </ul>
+                </div>
+                <div class="app-category">
+                    <h3>📊 Finanzas y Economía</h3>
+                    <ul>
+                        <li>Modelos de precios iniciales</li>
+                        <li>Asignación aleatoria de portafolios</li>
+                        <li>Simulación de escenarios base</li>
+                        <li>Distribución de recursos limitados</li>
+                        <li>Pruebas de estrés financiero</li>
+                    </ul>
+                </div>
+                <div class="app-category">
+                    <h3>🎓 Educación y Enseñanza</h3>
+                    <ul>
+                        <li>Selección aleatoria de estudiantes</li>
+                        <li>Asignación de temas de proyecto</li>
+                        <li>Creación de exámenes aleatorios</li>
+                        <li>Formación de grupos de trabajo</li>
+                        <li>Ejemplos didácticos de probabilidad</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Distribución Uniforme Discreta - Simulador Educativo</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
