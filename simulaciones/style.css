@@ -20,19 +20,20 @@ header h1 {
   margin: 0;
 }
 
-#menu-juegos ul {
+nav ul {
   list-style: none;
   padding: 0;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   margin-top: 20px;
 }
 
-#menu-juegos li {
+nav li {
   margin: 0 15px;
 }
 
-#menu-juegos a {
+nav a {
   background-color: gold;
   color: #8B0000;
   padding: 12px 24px;
@@ -43,7 +44,8 @@ header h1 {
   box-shadow: 2px 2px 5px black;
 }
 
-#menu-juegos a:hover {
+nav a:hover,
+nav a.active {
   background-color: #ffd700;
   transform: scale(1.05);
 }
